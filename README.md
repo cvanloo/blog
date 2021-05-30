@@ -31,8 +31,8 @@ When the docker service is running, find it's IP address:
 
 	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' blog_db_1
 
-Most likely it will be 172.17.0.2
+Most likely it will be something like ```172.17.0.2``` or ```172.18.0.2```
 
 Connect to the db:
 
-	mysql -h 172.17.0.2 -u root -ptoor
+	mysql -h <docker-ip> -u root -ptoor
