@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  php-apache:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    image: php:7.2-apache
+    environment:
+      - ALLOW_OVERRIDE=true
+    ports:
+      - "80:80"
+    links:
+      - mariadb
+    volumes:
+      - ./src/app:/var/www/html/
+      - ./src/php:/var/php/
+      - ./src/settings:/var/settings/
+
+  mariadb:
+    image: mariadb
+    restart: always
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: blog
+    ports:
+      - "8889:3306"
+
+volumes:
+  mariadb:

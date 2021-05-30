@@ -1,5 +1,5 @@
 <?php 
-	require 'config.php';
+	require '../../settings/config.php';
 	require PHP_ROOT.'session.php';
 ?>
 
@@ -24,6 +24,8 @@
 <?php
 
 	require PHP_ROOT.'sanitize.php';
+	require_once PHP_ROOT.'database.php';
+
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$username = sanitize($_POST["name"]);
@@ -31,6 +33,8 @@
 
 		echo "Username: $username";
 		echo "Password: $password";
+
+		$db = new database\DatabaseHandler();
 	}
 
 ?>

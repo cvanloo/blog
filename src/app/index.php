@@ -1,4 +1,7 @@
-<?php require 'session.php'; ?>
+<?php
+	require '../../settings/config.php';
+	require PHP_ROOT.'session.php';
+?>
 
 <!DOCTYPE html>
 <html>
