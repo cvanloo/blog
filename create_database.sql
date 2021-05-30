@@ -1,6 +1,6 @@
 -- drop and create database
 
-DROP DATABASE IF EXIST blog;
+DROP DATABASE IF EXISTS blog;
 CREATE DATABASE blog;
 USE blog;
 
