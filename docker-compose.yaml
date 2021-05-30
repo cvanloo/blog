@@ -15,6 +15,9 @@ services:
       - ./src/app:/var/www/html/
       - ./src/php:/var/php/
       - ./src/settings:/var/settings/
+    networks:
+      vpcbr:
+        ipv4_address: 172.19.0.2
 
   mariadb:
     image: mariadb
@@ -28,6 +31,17 @@ services:
       MYSQL_DATABASE: blog
     ports:
       - "8889:3306"
+    networks:
+      vpcbr:
+        ipv4_address: 172.19.0.3
 
 volumes:
   mariadb:
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
