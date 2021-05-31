@@ -1,0 +1,12 @@
+{
+    "name": "cvanloo/blog",
+    "description": "M133 Project",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Colin van Loo",
+            "email": "colin.vanloo@edu.tbz.ch"
+        }
+    ],
+    "require": {}
+}

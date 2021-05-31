@@ -11,6 +11,7 @@ CREATE TABLE user (
 	email varchar(56) NOT NULL,
 	account_name varchar(32) NOT NULL,
 	display_name varchar(32) NOT NULL,
+	pw_hash varchar(255) NOT NULL, -- The salt is stored within the password hash
 	create_date DATE NOT NULL DEFAULT CURDATE(),
 	is_blocked TINYINT(1) NOT NULL DEFAULT 0,
 	is_deleted TINYINT(1) NOT NULL DEFAULT 0,
@@ -19,14 +20,14 @@ CREATE TABLE user (
 	UNIQUE (account_name)
 );
 
-CREATE TABLE authentication (
+/*CREATE TABLE authentication (
 	user_id int NOT NULL,
 	salt binary(128) NOT NULL,
 	sha512 binary(64) NOT NULL,
 	
 	UNIQUE (user_id),
 	FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
+);*/
 
 CREATE TABLE access_right (
 	user_id int NOT NULL,

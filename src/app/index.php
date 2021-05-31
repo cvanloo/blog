@@ -1,5 +1,5 @@
 <?php
-	require '../../settings/config.php';
+	require '/var/settings/config.php';
 	require PHP_ROOT.'session.php';
 ?>
 

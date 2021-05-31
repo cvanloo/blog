@@ -37,3 +37,11 @@ The docker-compose.yaml is configured to assign a static ip address of
 Connect to the db:
 
 	mysql -h 172.19.0.3 -u admin -ptest
+
+Shut down the docker containers:
+
+	docker-compose stop
+
+Completely reset (delete) the containers:
+
+	docker-compose down -v
