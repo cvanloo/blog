@@ -20,7 +20,8 @@ class DatabaseHandler {
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} 
 		catch (PDOException $pdoEx) {
-			die("Failed to connect to database");
+			echo $pdoEx;
+			die("Failed to connect to database. See error above.");
 		}
 	}
 

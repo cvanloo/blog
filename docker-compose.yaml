@@ -19,6 +19,27 @@ services:
       vpcbr:
         ipv4_address: 172.19.0.2
 
+  phpunit:
+    build:
+      context: .
+      dockerfile: phpunit.dockerfile
+    image: php:7.4.19-cli
+    restart: never
+    links:
+      - mariadb
+    volumes:
+      - ./src/app:/var/www/html/
+      - ./src/php:/var/php/
+      - ./src/settings:/var/settings/
+      - ./tests:/var/tests/
+      - .:/app
+    working_dir: /app
+    entrypoint: vendor/bin/phpunit
+    networks:
+      vpcbr:
+        ipv4_address: 172.19.0.4
+
+
   mariadb:
     image: mariadb
     restart: always

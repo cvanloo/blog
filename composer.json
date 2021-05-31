@@ -8,5 +8,7 @@
             "email": "colin.vanloo@edu.tbz.ch"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
 }
