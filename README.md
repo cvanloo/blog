@@ -45,3 +45,11 @@ Shut down the docker containers:
 Completely reset (delete) the containers:
 
 	docker-compose down -v
+
+## PHPUnit
+
+PHPUnit is used for unit testing.
+
+To run the tests, execute:
+
+	docker-compose run phpunit tests
