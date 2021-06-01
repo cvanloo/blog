@@ -99,6 +99,7 @@ class DatabaseHandler {
 
 		$pwhash = $user['pw_hash'];
 		$id = $user['id'];
+
 		if (password_verify($pw, $pwhash)) {
 			return new DatabaseResult(true, $id);
 		}
