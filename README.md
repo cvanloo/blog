@@ -54,3 +54,11 @@ To remove an image:
 To rebuild an image:
 
 	docker-compose build <service>
+
+## PHPUnit
+
+PHPUnit is used for unit testing.
+
+To run the tests, execute:
+
+	docker-compose run phpunit tests
