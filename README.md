@@ -45,3 +45,12 @@ Shut down the docker containers:
 Completely reset (delete) the containers:
 
 	docker-compose down -v
+
+To remove an image:
+
+	docker images # show all images
+	docker rmi <image-id> --force
+
+To rebuild an image:
+
+	docker-compose build <service>

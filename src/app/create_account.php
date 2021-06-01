@@ -13,12 +13,14 @@
 <body>
 
 <div id="form">
-	<h1>Login</h1>
+	<h1>Create Account</h1>
 	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+		Email: <input type="text" name="email"><br>
 		Username: <input type="text" name="name"><br>
 		Password: <input type="password" name="pw"><br>
+		Repeat Password: <input type="password" name="pw"><br>
 		<input type="submit">
-		<a href="create_account.php">Create Account</a>
+		<a href="login.php">Login</a>
 	</form>
 </div>
 
@@ -31,19 +33,12 @@
 
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$email = sanitize($_POST["email"]);
 		$username = sanitize($_POST["name"]);
 		$password = sanitize($_POST["pw"]);
+
 		$db = new database\DatabaseHandler();
-
-		$result = $db->validate_login($username, $password);
-
-		if (true === $result->success) {
-			$_SESSION["loggedin"] = $result->message;
-			echo "Valid $result->message";
-		}
-		else {
-			echo "Invalid";
-		}
+		$db->create_account($email, $username, $password);
 	}
 
 ?>

@@ -30,6 +30,19 @@ class DatabaseHandler {
 	public function __destruct() {
 		$this->conn = null;
 	}
+
+	// Tests if a connection to the database can be made.
+	public static function connection_test() : DatabaseResult {
+		try {
+			$conn = new PDO(DB_CONNECT, DB_USER, DB_PW, array(PDO::ATTR_ERRMODE
+							=> PDO::ERRMODE_EXCEPTION));
+		}
+		catch (PDOException $pdoEx) {
+			return new DatabaseResult(false, $pdoEx->getMessage());
+		}
+
+		return new DatabaseResult(true);
+	}
 	
 	public function query_from_file(string $filepath) {
 		$query = file_get_contents($filepath);
@@ -42,7 +55,7 @@ class DatabaseHandler {
 
 	// Stores a new account in the database
 	public function create_account(string $email, string $acc_name, string $pw,
-									string $display_name = null) {
+									string $display_name = null) : DatabaseResult {
 		if (null == $display_name) {
 			$display_name = $acc_name;
 		}
@@ -64,17 +77,43 @@ class DatabaseHandler {
 		];
 
 		$stmt = $this->conn->prepare($statement);
-		$stmt->execute($data);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return new DatabaseResult(false, $pdoEx->getMessage());
+		}
+
+		$id = $this->get_user_by_acc_name($acc_name)['id'];
+
+		return new DatabaseResult(true, $id);
 	}
 
-	public function validate_login(string $acc_name, string $pw) : bool {
-		$statement = "SELECT pw_hash FROM user WHERE account_name = ?";
+	public function validate_login(string $acc_name, string $pw) : DatabaseResult {
+		$statement = "SELECT * FROM user WHERE account_name = ?";
 		$stmt = $this->conn->prepare($statement);
 
 		$stmt->execute([$acc_name]);
-		$pwhash = $stmt->fetch()['pw_hash'];
-		
-		return password_verify($pw, $pwhash);
+		$user = $stmt->fetch();
+
+		$pwhash = $user['pw_hash'];
+		$id = $user['id'];
+		if (password_verify($pw, $pwhash)) {
+			return new DatabaseResult(true, $id);
+		}
+
+		return new DatabaseResult(false, "Wrong credentials");
+	}
+
+	public function get_user_by_acc_name(string $acc_name) : array {
+		$statement = "SELECT * FROM user WHERE account_name = ?";
+		$stmt = $this->conn->prepare($statement);
+
+		$stmt->execute([$acc_name]);
+		$user = $stmt->fetch();
+
+		return $user;
 	}
 
 	public function update_password() {
@@ -87,6 +126,16 @@ class DatabaseHandler {
 
 	public function update_displayname() {
 
+	}
+}
+
+class DatabaseResult {
+	public $success;
+	public $message;
+
+	public function __construct(bool $success, string $message = NULL) {
+		$this->success = $success;
+		$this->message = $message;
 	}
 }
 

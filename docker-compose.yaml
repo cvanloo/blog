@@ -25,6 +25,8 @@ services:
       dockerfile: phpunit.dockerfile
     image: php:7.4.19-cli
     restart: never
+    depends_on:
+      - "mariadb"
     links:
       - mariadb
     volumes:
@@ -42,7 +44,6 @@ services:
 
   mariadb:
     image: mariadb
-    restart: always
     volumes:
       - mariadb:/var/lib/mysql
     environment:
