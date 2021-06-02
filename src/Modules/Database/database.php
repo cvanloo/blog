@@ -138,6 +138,10 @@ class DatabaseResult {
 		$this->success = $success;
 		$this->message = $message;
 	}
+
+	public function __toString() : string {
+		return "$this->success: $this->message";
+	}
 }
 
 ?>

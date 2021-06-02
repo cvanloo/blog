@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: php.dockerfile
-    image: php:7.2-apache
+    image: php:7.4-apache
     environment:
       - ALLOW_OVERRIDE=true
     ports:

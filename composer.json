@@ -1,14 +1,15 @@
 {
     "name": "cvanloo/blog",
-    "description": "M133 Project",
+    "description": "M133 Project Blog",
     "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
     "authors": [
         {
             "name": "Colin van Loo",
             "email": "colin.vanloo@edu.tbz.ch"
         }
     ],
-    "require-dev": {
-        "phpunit/phpunit": "^9"
-    }
+    "require": {}
 }

@@ -1,11 +1,7 @@
 <?php
 
-require '/var/php/config/config.php';
-require PHP_MODULES.'Session/session.php';
-
-if (isset($_SESSION['userid'])) {
-	echo "hey, you are already logged in!";
-}
+//require '/var/php/config/config.php';
+//require PHP_MODULES.'Session/session.php';
 
 ?>
 
@@ -13,6 +9,7 @@ if (isset($_SESSION['userid'])) {
 <html lang="en">
 <head>
 
+	<!-- Maybe just once in index.php -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -39,23 +36,26 @@ if (isset($_SESSION['userid'])) {
 		}
 	</style>
 
+	<!--<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>-->
 	<div class="text-center mt-5 input-group input-group-lg">
-		<form style="max-width: 300px; margin: auto">
+		<form style="max-width: 300px; margin: auto" method="post" action="/login">
 		<h1 class="mb-3 h1">Login</h1>
-		<input type="text" placeholder="Username/Email" class="form-control bg-dark text-light" />
-		<input type="password" placeholder="Password" class="form-control bg-dark text-light" />
+		<input name="identifier" type="text" placeholder="Username/Email"
+			class="form-control bg-dark text-light" />
+		<input name="password" type="password" placeholder="Password"
+			class="form-control bg-dark text-light" />
 
 		<div class="checkbox mt-3">
 			<label>
-				<input type="checkbox" /> Remember Me!
+				<input name="remember_me" type="checkbox" /> Remember Me!
 			</label>
 		</div>
 
 		<div class="mt-3 mb-1">
-			<button style="min-width: 300px"type="button" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
+			<button style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
 		</div>
 
-		<a href="create_account.php" class="badge badge-secondary">Create an Account</a>
+		<a href="register" class="badge badge-secondary">Create an Account</a>
 
 		</form>
 	</div>
@@ -67,3 +67,35 @@ if (isset($_SESSION['userid'])) {
 </body>
 </html>
 
+<?php
+
+	require PHP_MODULES.'Input/sanitize.php';
+	require PHP_MODULES.'Database/database.php';
+	
+	use Modules\Database\DatabaseHandler;
+	use Modules\Database\DatabaseResult;
+	use function Modules\Input\sanitize;
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$identifier = sanitize($_POST['identifier']);
+		$password = sanitize($_POST['password']);
+		$db = new DatabaseHandler();
+
+		$result = $db->validate_login($identifier, $password);
+
+
+		if (true == $result->success) {
+			$_SESSION['userid'] = $result->message;
+			echo "<p>Successfully logged in</p>";
+		}
+		else {
+			echo "<p>Wrong credentials</p>";
+		}
+
+		// TODO: This redirect would ONLY work if it was sent before any html tags
+		// aka. <!DOCTYPE html>	
+		//header("Location: http://localhost/", true, 302);
+		//exit();
+	}
+
+?>

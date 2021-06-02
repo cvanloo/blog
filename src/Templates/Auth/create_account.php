@@ -1,11 +1,7 @@
 <?php
 
-require '/var/php/config/config.php';
-require PHP_MODULES.'Session/session.php';
-
-if (isset($_SESSION['userid'])) {
-	echo "hey, you are already logged in!";
-}
+//require '/var/php/config/config.php';
+//require PHP_MODULES.'Session/session.php';
 
 ?>
 
@@ -47,12 +43,16 @@ if (isset($_SESSION['userid'])) {
 	</style>
 
 	<div class="text-center mt-5 input-group input-group-lg">
-		<form style="max-width: 300px; margin: auto">
+		<form style="max-width: 300px; margin: auto" method="post" action="/register">
 		<h1 class="mb-3 h1">Create Account</h1>
-		<input type="email" placeholder="Email" class="form-control bg-dark text-light no-border-bottom bigger" />
-		<input type="text" placeholder="Username" class="form-control bg-dark text-light no-border bigger" />
-		<input type="password" placeholder="Password" class="form-control bg-dark text-light no-border bigger" style="border-top: 0px;" />
-		<input type="password" placeholder="Repeat Password" class="form-control bg-dark text-light no-border-top bigger" />
+		<input name="email" type="email" placeholder="Email"
+			class="form-control bg-dark text-light no-border-bottom bigger" />
+		<input name="username" type="text" placeholder="Username"
+			class="form-control bg-dark text-light no-border bigger" />
+		<input name="password" type="password" placeholder="Password"
+			class="form-control bg-dark text-light no-border bigger" style="border-top: 0px;" />
+		<input name="rep_password" type="password" placeholder="Repeat Password"
+			class="form-control bg-dark text-light no-border-top bigger" />
 
 		<div class="checkbox mt-3">
 			<label>
@@ -61,10 +61,10 @@ if (isset($_SESSION['userid'])) {
 		</div>
 
 		<div class="mt-3 mb-1">
-			<button style="min-width: 300px"type="button" class="btn btn-outline-success btn-lg btn-block">Create Account</button>
+			<button style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Create Account</button>
 		</div>
 
-		<a href="login.php" class="badge badge-secondary">Sign in instead</a>
+		<a href="login" class="badge badge-secondary">Sign in instead</a>
 
 		</form>
 	</div>
@@ -75,3 +75,43 @@ if (isset($_SESSION['userid'])) {
 
 </body>
 </html>
+
+<?php
+
+	require PHP_MODULES.'Input/sanitize.php';
+	require PHP_MODULES.'Database/database.php';
+	
+	use Modules\Database\DatabaseHandler;
+	use Modules\Database\DatabaseResult;
+	use function Modules\Input\sanitize;
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$email = sanitize($_POST['email']);
+		$username = sanitize($_POST['username']);
+		$password = sanitize($_POST['password']);
+		$rep_password = sanitize($_POST['rep_password']);
+		$db = new DatabaseHandler();
+
+		if ($password !== $rep_password) {
+			echo "<p>Passwords don't match</p>";
+			exit();
+		}
+
+		$result = $db->create_account($email, $username, $password);
+
+
+		if (true == $result->success) {
+			$_SESSION['userid'] = $result->message;
+			echo "<p>Successfully logged in</p>";
+		}
+		else {
+			echo "<p>Something went wrong</p>";
+		}
+
+		// TODO: This redirect would ONLY work if it was sent before any html tags
+		// aka. <!DOCTYPE html>	
+		//header("Location: http://localhost/", true, 302);
+		//exit();
+	}
+
+?>
