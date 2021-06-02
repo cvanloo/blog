@@ -19,7 +19,7 @@ Make sure the docker service is running:
 
 Start:
 
-	docker-compose up -d
+	docker-compose up -d php-apache
 
 Stop:
 
