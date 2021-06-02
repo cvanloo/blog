@@ -65,15 +65,15 @@ To run the tests, execute:
 
 ## Directory Structure
 
-  .
-├──   Projectdescription
-└──   src
-   ├──   config
-   ├──   Modules
-   ├──   public
-   │  ├──   assets
-   │  └──   index.php
-   ├──   Templates
+  .  
+├──   Projectdescription  
+└──   src  
+   ├──   config  
+   ├──   Modules  
+   ├──   public  
+   │  ├──   assets  
+   │  └──   index.php  
+   ├──   Templates  
    └──   tests
 
 Folder | Description
