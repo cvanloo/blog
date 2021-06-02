@@ -1,7 +1,7 @@
 <?php
 
-require '/var/settings/config.php';
-require PHP_ROOT.'session.php';
+require '/var/php/config/config.php';
+require PHP_MODULES.'Session/session.php';
 
 if (isset($_SESSION['userid'])) {
 	echo "hey, you are already logged in!";
@@ -26,6 +26,7 @@ if (isset($_SESSION['userid'])) {
 
 	<style>
 		.no-border-top {
+			border-top: 0px;
 			border-top-left-radius: 0px;
 			border-top-right-radius: 0px;
 		}
@@ -35,6 +36,7 @@ if (isset($_SESSION['userid'])) {
 		}
 
 		.no-border-bottom {
+			border-bottom: 0px;
 			border-bottom-left-radius: 0px;
 			border-bottom-right-radius: 0px;
 		}
@@ -49,7 +51,7 @@ if (isset($_SESSION['userid'])) {
 		<h1 class="mb-3 h1">Create Account</h1>
 		<input type="email" placeholder="Email" class="form-control bg-dark text-light no-border-bottom bigger" />
 		<input type="text" placeholder="Username" class="form-control bg-dark text-light no-border bigger" />
-		<input type="password" placeholder="Password" class="form-control bg-dark text-light no-border bigger" />
+		<input type="password" placeholder="Password" class="form-control bg-dark text-light no-border bigger" style="border-top: 0px;" />
 		<input type="password" placeholder="Repeat Password" class="form-control bg-dark text-light no-border-top bigger" />
 
 		<div class="checkbox mt-3">
@@ -62,7 +64,7 @@ if (isset($_SESSION['userid'])) {
 			<button style="min-width: 300px"type="button" class="btn btn-outline-success btn-lg btn-block">Create Account</button>
 		</div>
 
-		<a href="login.html" class="badge badge-secondary">Sign in instead</a>
+		<a href="login.php" class="badge badge-secondary">Sign in instead</a>
 
 		</form>
 	</div>

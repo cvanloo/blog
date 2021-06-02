@@ -1,7 +1,7 @@
 <?php
 
-require '/var/settings/config.php';
-require PHP_ROOT.'session.php';
+require '/var/php/config/config.php';
+require PHP_MODULES.'Session/session.php';
 
 if (isset($_SESSION['userid'])) {
 	echo "hey, you are already logged in!";
@@ -55,7 +55,7 @@ if (isset($_SESSION['userid'])) {
 			<button style="min-width: 300px"type="button" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
 		</div>
 
-		<a href="create_account.html" class="badge badge-secondary">Create an Account</a>
+		<a href="create_account.php" class="badge badge-secondary">Create an Account</a>
 
 		</form>
 	</div>

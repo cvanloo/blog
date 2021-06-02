@@ -1,5 +1,7 @@
 <?php
 
+namespace Modules\Input;
+
 function sanitize($data) {
 	$data = trim($data);
 	$data = stripslashes($data);

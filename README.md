@@ -62,3 +62,25 @@ PHPUnit is used for unit testing.
 To run the tests, execute:
 
 	docker-compose run phpunit tests
+
+## Directory Structure
+
+  .
+├──   Projectdescription
+└──   src
+   ├──   config
+   ├──   Modules
+   ├──   public
+   │  ├──   assets
+   │  └──   index.php
+   ├──   Templates
+   └──   tests
+
+Folder | Description
+------ | -----------
+src    | contains the source code
+config | application config
+Modules | Application Logic
+public | Public accessible files
+Templates | Code that renders HTML
+tests  | unit tests

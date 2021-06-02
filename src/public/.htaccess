@@ -1,0 +1,11 @@
+# mod_rewrite has to be enabled:
+# $ docker ps # get php-apache container-id
+# $ docker exec -it <container-id> /bin/bash
+# $ a2enmod rewrite
+# $ systemctl restart apache2
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ /index.php [L,QSA]
+# L (Last): rules below this line will be ignored

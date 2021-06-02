@@ -1,5 +1,5 @@
 <?php
-namespace database;
+namespace Modules\Database;
 
 // Since we are in a different namespace (database), we need to include PDO's
 // classes here

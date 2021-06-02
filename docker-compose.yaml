@@ -12,9 +12,10 @@ services:
     links:
       - mariadb
     volumes:
-      - ./src/app:/var/www/html/
-      - ./src/php:/var/php/
-      - ./src/settings:/var/settings/
+      - ./src/public:/var/www/html/
+      - ./src/Modules:/var/php/Modules/
+      - ./src/Templates:/var/php/Templates/
+      - ./src/config:/var/php/config/
     networks:
       vpcbr:
         ipv4_address: 172.19.0.2
@@ -30,12 +31,8 @@ services:
     links:
       - mariadb
     volumes:
-      - ./src/app:/var/www/html/
-      - ./src/php:/var/php/
-      - ./src/settings:/var/settings/
-      - ./tests:/var/tests/
-      - .:/app
-    working_dir: /app
+      - .:/var/php/
+    working_dir: /var/php/
     entrypoint: vendor/bin/phpunit
     networks:
       vpcbr:
