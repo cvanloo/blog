@@ -37,7 +37,7 @@
 							<a href="#" class="nav-link text-white">Personal Blog</a>
 						</li>
 						<li class="nav-item">
-							<a href="#" class="nav-link text-white">Upload Blog</a>
+							<a href="/upload" class="nav-link text-white">Upload Blog</a>
 						</li>';
 					} else {
 						echo '
