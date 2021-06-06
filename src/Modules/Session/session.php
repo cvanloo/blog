@@ -4,8 +4,5 @@
 session_start();
 
 $user = $_SESSION['userid'];
-if (isset($user)) {
-	echo "<p>$user</p>";
-}
 
 ?>

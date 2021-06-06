@@ -41,9 +41,9 @@
 		<form style="max-width: 300px; margin: auto" method="post" action="/login">
 		<h1 class="mb-3 h1">Login</h1>
 		<input name="identifier" type="text" placeholder="Username/Email"
-			class="form-control bg-dark text-light" />
+			class="form-control bg-dark text-light" required />
 		<input name="password" type="password" placeholder="Password"
-			class="form-control bg-dark text-light" />
+			class="form-control bg-dark text-light" required />
 
 		<div class="checkbox mt-3">
 			<label>

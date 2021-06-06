@@ -32,6 +32,9 @@
 	case '/blog':
 		include_once PHP_TEMPLATES.'Blog/blog.php';
 		break;
+	case '/logout':
+		include_once PHP_TEMPLATES.'Auth/logout.php';
+		break;
 	default:
 		echo "<p>Not found<p>";
 	}

@@ -46,13 +46,17 @@
 		<form style="max-width: 300px; margin: auto" method="post" action="/register">
 		<h1 class="mb-3 h1">Create Account</h1>
 		<input name="email" type="email" placeholder="Email"
-			class="form-control bg-dark text-light no-border-bottom bigger" />
+			class="form-control bg-dark text-light no-border-bottom bigger" 
+			required />
 		<input name="username" type="text" placeholder="Username"
-			class="form-control bg-dark text-light no-border bigger" />
+			class="form-control bg-dark text-light no-border bigger"
+			required />
 		<input name="password" type="password" placeholder="Password"
-			class="form-control bg-dark text-light no-border bigger" style="border-top: 0px;" />
+			class="form-control bg-dark text-light no-border bigger" style="border-top: 0px;"
+			required />
 		<input name="rep_password" type="password" placeholder="Repeat Password"
-			class="form-control bg-dark text-light no-border-top bigger" />
+			class="form-control bg-dark text-light no-border-top bigger"
+			required />
 
 		<div class="checkbox mt-3">
 			<label>
