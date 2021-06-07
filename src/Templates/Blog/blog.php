@@ -22,7 +22,7 @@
 <div class="container d-grid gap-5" style="margin-top: 60px;">
 	<div class="p-5 border">
 		<p>
-			Hello fancy world!
+			<?php include_once PHP_TEMPLATES.'Blog/post.php'; ?>
 		</p>
 	</div>
 	<div class="p-5 border">

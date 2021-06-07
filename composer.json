@@ -11,5 +11,7 @@
             "email": "colin.vanloo@edu.tbz.ch"
         }
     ],
-    "require": {}
+    "require": {
+        "erusev/parsedown": "^1.7"
+    }
 }

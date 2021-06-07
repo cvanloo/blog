@@ -16,6 +16,7 @@ services:
       - ./src/Modules:/var/php/Modules/
       - ./src/Templates:/var/php/Templates/
       - ./src/config:/var/php/config/
+      - ./vendor:/var/php/vendor/
     networks:
       vpcbr:
         ipv4_address: 172.19.0.2
