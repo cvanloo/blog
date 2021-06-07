@@ -18,6 +18,22 @@
 
 	<title>Blog, Please login</title>
 
+	<script>
+
+	function generateHash(password) {
+		const bcrypt = require('bcrypt');
+
+		bcrypt.hash(password, 12, (err, hash) => {
+			if (err) {
+				console.error(err)
+				return
+			}
+			console.log(hash)
+		}
+	}
+
+	</script>
+
 </head>
 <body class="bg-dark text-light">
 

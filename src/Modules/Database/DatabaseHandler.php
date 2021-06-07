@@ -54,18 +54,9 @@ class DatabaseHandler {
 	}
 
 	// Stores a new account in the database
-	public function create_account(string $email, string $acc_name, string $pw,
-									string $display_name = null) : DatabaseResult {
-		if (null == $display_name) {
-			$display_name = $acc_name;
-		}
-
-		// 'PASSWORD_DEFAULT' uses PHP's strongest hashing algorithm.
-		// This can change, therefore the length of the hash can change too.
-		// It is recommended to use 255 characters in the database.
-		$options = [ "cost" => 15 ]; // shouldn't take longer than a 100ms to execute
-		$pwhash = password_hash($pw, PASSWORD_DEFAULT, $options);
-		
+	public function store_user(string $email, string $acc_name, string $pw,
+		string $display_name) : bool
+	{
 		$statement = "INSERT INTO user (email, account_name, display_name, pw_hash)
 			VALUES (:email,:account_name,:display_name,:pw_hash)";
 
@@ -82,32 +73,13 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return new DatabaseResult(false, $pdoEx->getMessage());
+			return false;
 		}
 
-		$id = $this->get_user_by_acc_name($acc_name)['id'];
-
-		return new DatabaseResult(true, $id);
+		return true;
 	}
 
-	public function validate_login(string $acc_name, string $pw) : DatabaseResult {
-		$statement = "SELECT * FROM user WHERE account_name = ?";
-		$stmt = $this->conn->prepare($statement);
-
-		$stmt->execute([$acc_name]);
-		$user = $stmt->fetch();
-
-		$pwhash = $user['pw_hash'];
-		$id = $user['id'];
-
-		if (password_verify($pw, $pwhash)) {
-			return new DatabaseResult(true, $id);
-		}
-
-		return new DatabaseResult(false, "Wrong credentials");
-	}
-
-	public function get_user_by_acc_name(string $acc_name) : array {
+	public function retrieve_user(string $acc_name) {
 		$statement = "SELECT * FROM user WHERE account_name = ?";
 		$stmt = $this->conn->prepare($statement);
 
