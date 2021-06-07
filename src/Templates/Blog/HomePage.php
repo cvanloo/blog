@@ -15,14 +15,14 @@
 
 <?php
 
-	include_once PHP_TEMPLATES.'Blog/navbar.php';
+	include_once PHP_TEMPLATES.'Blog/NavbarComponent.php';
 
 ?>
 
 <div class="container d-grid gap-5" style="margin-top: 60px;">
 	<div class="p-5 border">
 		<p>
-			<?php include_once PHP_TEMPLATES.'Blog/post.php'; ?>
+			<?php include_once PHP_TEMPLATES.'Blog/BlogComponent.php'; ?>
 		</p>
 	</div>
 	<div class="p-5 border">

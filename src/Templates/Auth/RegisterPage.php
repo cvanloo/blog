@@ -1,10 +1,3 @@
-<?php
-
-//require '/var/php/config/config.php';
-//require PHP_MODULES.'Session/session.php';
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +9,12 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
 	<title>Blog, Create an Account</title>
+
+	<script>
+	// TODO: Validate textboxes on focus-leave
+	// TODO: Enable "Create Account" button when all textboxes have been validated
+	// TODO: When "Create Account" is pressed, make a call to the php module
+	</script>
 
 </head>
 <body class="bg-dark text-light">
@@ -79,43 +78,3 @@
 
 </body>
 </html>
-
-<?php
-
-	require PHP_MODULES.'Input/sanitize.php';
-	require PHP_MODULES.'Database/database.php';
-	
-	use Modules\Database\DatabaseHandler;
-	use Modules\Database\DatabaseResult;
-	use function Modules\Input\sanitize;
-
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$email = sanitize($_POST['email']);
-		$username = sanitize($_POST['username']);
-		$password = sanitize($_POST['password']);
-		$rep_password = sanitize($_POST['rep_password']);
-		$db = new DatabaseHandler();
-
-		if ($password !== $rep_password) {
-			echo "<p>Passwords don't match</p>";
-			exit();
-		}
-
-		$result = $db->create_account($email, $username, $password);
-
-
-		if (true == $result->success) {
-			$_SESSION['userid'] = $result->message;
-			echo "<p>Successfully logged in</p>";
-		}
-		else {
-			echo "<p>Something went wrong</p>";
-		}
-
-		// TODO: This redirect would ONLY work if it was sent before any html tags
-		// aka. <!DOCTYPE html>	
-		//header("Location: http://localhost/", true, 302);
-		//exit();
-	}
-
-?>
