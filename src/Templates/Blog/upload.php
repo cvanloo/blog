@@ -12,7 +12,7 @@
 
 <body>
 
-	<form method="post" action="/upload" enctype="mulitpart/form-data">
+	<form method="post" action="/upload" enctype="multipart/form-data">
 		Upload File:
 		<input type="file" name="new_file" id="fileToUpload">
 		<input type="submit" name="submit" value="Publish"> 
@@ -30,7 +30,6 @@
 		$errors = [];
 
 		var_dump($_FILES);
-		exit();
 
 		$fileName = $_FILES['new_file']['name'];
 		$fileSize = $_FILES['new_file']['size'];
