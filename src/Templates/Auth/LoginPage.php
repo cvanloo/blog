@@ -18,17 +18,45 @@
 
 		bcrypt.hash(password, 12, (err, hash) => {
 			if (err) {
-				console.error(err)
-				return
+				console.error(err);
+				return;
 			}
-			console.log(hash)
-		})
+			console.log(hash);
+		});
 	}
 
-	function validate() {
-		var btn = document.getElementById('btnSubmit');
+	function validate(textbox) {
+		var tbs = document.getElementsByTagName('input')
 
+		for (i = 0; i < tbs.length; i++) {
+			switch (tbs[i].type) {
+				case 'email':
+					console.log('email');
+					if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(textbox.value)) {
+						return;
+					}
+					break;
+				case 'password':
+				case 'text':
+					console.log('password or text');
+					if (!textbox.value) {
+						return;
+					}
+					break;
+			}
+		}
+
+		var btn = document.getElementById('btnSubmit');
 		btn.disabled = false;
+	}
+
+	function submit() {
+		var identifier = document.getElementById('identifier');
+		var password = document.getElementById('password');
+
+		password = generateHash(password);
+
+		
 	}
 
 	// TODO: When the focus leaves a textbox, validate it
@@ -58,12 +86,12 @@
 
 	<!--<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>-->
 	<div class="text-center mt-5 input-group input-group-lg">
-		<form style="max-width: 300px; margin: auto" method="post" action="/login">
+		<form style="max-width: 300px; margin: auto">
 		<h1 class="mb-3 h1">Login</h1>
 		<input name="identifier" type="text" placeholder="Username/Email"
-			class="form-control bg-dark text-light" required onkeyup="validate()" />
+			class="form-control bg-dark text-light" required onkeyup="validate(this)" />
 		<input name="password" type="password" placeholder="Password"
-			class="form-control bg-dark text-light" required onkeyup="validate()" />
+			class="form-control bg-dark text-light" required onkeyup="validate(this)" />
 
 		<div class="checkbox mt-3">
 			<label>
@@ -72,7 +100,8 @@
 		</div>
 
 		<div class="mt-3 mb-1">
-			<button id="btnSubmit" disabled style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
+			<button id="btnSubmit" onclick="submit()" disabled style="min-width: 300px"
+				type="button" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
 		</div>
 
 		<a href="register" class="badge badge-secondary">Create an Account</a>
