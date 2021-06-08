@@ -10,10 +10,36 @@
 
 	<title>Blog, Create an Account</title>
 
-	<script>
-	// TODO: Validate textboxes on focus-leave
-	// TODO: Enable "Create Account" button when all textboxes have been validated
-	// TODO: When "Create Account" is pressed, make a call to the php module
+	<script type="text/javascript">
+
+	function validate() {
+		var tbs = document.getElementsByTagName('input')
+		var btn = document.getElementById('btnSubmit');
+
+		for (i = 0; i < tbs.length; i++) {
+			var tb = tbs[i];
+			switch (tb.type) {
+				case 'email':
+					console.log('email');
+					if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(tb.value)) {
+						btn.disabled = true;
+						return;
+					}
+					break;
+				case 'password':
+				case 'text':
+					console.log('password or text');
+					if (!tb.value) {
+						btn.disabled = true;
+						return;
+					}
+					break;
+			}
+		}
+
+		btn.disabled = false;
+	}
+
 	</script>
 
 </head>
@@ -46,16 +72,16 @@
 		<h1 class="mb-3 h1">Create Account</h1>
 		<input name="email" type="email" placeholder="Email"
 			class="form-control bg-dark text-light no-border-bottom bigger" 
-			required />
+			onkeyup="validate();" required />
 		<input name="username" type="text" placeholder="Username"
 			class="form-control bg-dark text-light no-border bigger"
-			required />
+			onkeyup="validate();" required />
 		<input name="password" type="password" placeholder="Password"
 			class="form-control bg-dark text-light no-border bigger" style="border-top: 0px;"
-			required />
+			onkeyup="validate();" required />
 		<input name="rep_password" type="password" placeholder="Repeat Password"
 			class="form-control bg-dark text-light no-border-top bigger"
-			required />
+			onkeyup="validate();" required />
 
 		<div class="checkbox mt-3">
 			<label>
@@ -64,7 +90,7 @@
 		</div>
 
 		<div class="mt-3 mb-1">
-			<button style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Create Account</button>
+			<button id="btnSubmit" disabled style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Create Account</button>
 		</div>
 
 		<a href="login" class="badge badge-secondary">Sign in instead</a>
@@ -78,3 +104,36 @@
 
 </body>
 </html>
+
+<?php
+
+	require PHP_MODULES.'Input/sanitize.php';
+	require PHP_MODULES.'Auth/AuthHandler.php';
+	
+	use function Modules\Input\sanitize;
+	use Modules\Auth\AuthHandler;
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$email = sanitize($_POST['email']);
+		$username = sanitize($_POST['username']);
+		$password = sanitize($_POST['password']);
+		$rep_password = sanitize($_POST['rep_password']);
+
+		if ($password !== $rep_password) {
+			echo "<p>Passwords don't match</p>";
+			exit();
+		}
+		
+		$auth = new AuthHandler();
+
+		$result = $auth->register($email, $username, $password);
+
+		if (true == $result) {
+			echo "Account created.";
+		}
+		else {
+			echo "Something went wrong.";
+		}
+	}
+
+?>

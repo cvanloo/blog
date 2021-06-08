@@ -2,34 +2,33 @@
 
 namespace Modules\Auth;
 
-require 'var/php/config/config.php';
+require '/var/php/config/config.php';
 require PHP_MODULES.'Database/DatabaseHandler.php';
-use Modules\Database;
+
+use Modules\Database\DatabaseHandler;
 
 class AuthHandler {
 
-	public function register(string $email, string $acc_name, string $pwhash,
-		string $display_name = null)
+	public function register(string $email, string $acc_name, string $pw)
 	{
-		if (null == $display_name) {
-			$display_name = $acc_name;
-		}
+		$db = new DatabaseHandler();
 
-		$db = DatabaseHandler();
-
-		$db->store_user($email, $acc_name, $pwhash, $display_name);
+		return $db->store_user($email, $acc_name, $pw);
 	}
 
-	public function login(string $identifier, string $pwhash) {
-		$db = DatabaseHandler();
+	public function login(string $identifier, string $pw) {
+		$db = new DatabaseHandler();
 
 		$user = $db->retrieve_user($identifier);
 
-		if (0 == strcmp($pwhash, $user['pw_hash'])) {
-			return; // TODO: Successfull
+		$pwhash = $user['pw_hash'];
+		$id = $user['id'];
+
+		if (password_verify($pw, $pwhash)) {
+			return array('success' => true, 'id' => $id);
 		}
 
-		return; // TODO: Failed
+		return array('success' => false);
 	}
 
 	public function logout() {}

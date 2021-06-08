@@ -55,8 +55,18 @@ class DatabaseHandler {
 
 	// Stores a new account in the database
 	public function store_user(string $email, string $acc_name, string $pw,
-		string $display_name) : bool
+		string $display_name = null) : bool
 	{
+		if (null == $display_name) {
+			$display_name = $acc_name;
+		}
+
+		// 'PASSWORD_DEFAULT' uses PHP's strongest hashing algorithm.
+		// This can change, therefore the length of the hash can change too.
+		// It is recommended to use 255 characters in the database.
+		$options = [ "cost" => 15 ]; // shouldn't take longer than a 100ms to execute
+		$pwhash = password_hash($pw, PASSWORD_DEFAULT, $options);
+
 		$statement = "INSERT INTO user (email, account_name, display_name, pw_hash)
 			VALUES (:email,:account_name,:display_name,:pw_hash)";
 

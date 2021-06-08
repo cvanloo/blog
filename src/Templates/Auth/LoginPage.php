@@ -63,7 +63,7 @@
 
 	<!--<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>-->
 	<div class="text-center mt-5 input-group input-group-lg">
-		<form style="max-width: 300px; margin: auto" method="post" action="">
+		<form style="max-width: 300px; margin: auto" method="post" action="/login">
 		<h1 class="mb-3 h1">Login</h1>
 		<input name="identifier" type="text" placeholder="Username/Email"
 			class="form-control bg-dark text-light" required onkeyup="validate();" />
@@ -92,3 +92,31 @@
 
 </body>
 </html>
+
+<?php
+
+	require PHP_MODULES.'Input/sanitize.php';
+	require PHP_MODULES.'Auth/AuthHandler.php';
+	
+	use function Modules\Input\sanitize;
+	use Modules\Auth\AuthHandler;
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$identifier = sanitize($_POST['identifier']);
+		$password = sanitize($_POST['password']);
+		
+		$auth = new AuthHandler();
+
+		$result = $auth->login($identifier, $password);
+
+
+		if (true == $result['success']) {
+			$_SESSION['userid'] = $result['id'];
+			echo "<p>Successfully logged in</p>";
+		}
+		else {
+			echo "<p>Wrong credentials</p>";
+		}
+	}
+
+?>
