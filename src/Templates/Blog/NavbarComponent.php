@@ -9,14 +9,12 @@
 		</button>
 		
 		<div class="collapse navbar-collapse" id="navbarNav">
-
-			<form class="d-flex mx-auto" >
-				<input class="form-control me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success" type="submit">Search</button>
-			</form>
-
 			<div class="mx-auto"></div>
 			<ul class="navbar-nav">
+				<form class="d-flex mx-auto" >
+					<input class="form-control me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
 				<li class="nav-item">
 					<a href="/blog" class="nav-link text-white">Home</a>
 				</li>
