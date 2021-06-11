@@ -21,6 +21,12 @@
 				<?php
 					if (isset($_SESSION['userid'])) {
 						echo '
+						<li class="nav-item">
+						<a href="#" class="nav-link text-white">Personal Blog</a>
+						</li>
+						<li class="nav-item">
+						<a href="/upload" class="nav-link text-white">Upload Blog</a>
+						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" id="navbarDropdown"
 								role="button" data-bs-toggle="dropdown" aria-expand="false">
@@ -30,12 +36,6 @@
 								<li><a class="dropdown-item text-white" href="#">Preferences</a></li>
 								<li><a class="dropdown-item text-white" href="/logout">Logout</a></li>
 							</ul>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link text-white">Personal Blog</a>
-						</li>
-						<li class="nav-item">
-							<a href="/upload" class="nav-link text-white">Upload Blog</a>
 						</li>';
 					} else {
 						echo '
