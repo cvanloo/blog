@@ -23,9 +23,10 @@ class AuthHandler {
 
 		$pwhash = $user['pw_hash'];
 		$id = $user['id'];
+		$accname = $user['account_name']
 
 		if (password_verify($pw, $pwhash)) {
-			return array('success' => true, 'id' => $id);
+			return array('success' => true, 'id' => $id, 'accname' => $accname);
 		}
 
 		return array('success' => false);

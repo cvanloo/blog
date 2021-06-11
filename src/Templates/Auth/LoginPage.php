@@ -111,7 +111,8 @@
 
 
 		if (true == $result['success']) {
-			$_SESSION['userid'] = $result['id'];
+			$_SESSION['id'] = $result['id'];
+			$_SESSION['accname'] = $result['accname'];
 			echo "<p>Successfully logged in</p>";
 		}
 		else {

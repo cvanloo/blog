@@ -12,6 +12,7 @@
 
 <head>
 <body  class="bg-dark text-light">
+	<?php include_once PHP_TEMPLATES.'Blog/NavbarComponent.php'; ?>
 
 	<div class="text-center mt-5 input-group input-group-lg">
 		<form style="max-width: 300px; margin: auto" method="post" action="/upload" enctype="multipart/form-data">
@@ -35,7 +36,7 @@
 <?php
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$upload_dir = "/uploads/";
+		$upload_dir = "/uploads/" . $_SESSION['accname'];
 		$allowedFileExt = ['txt', 'md'];
 		
 		$errors = [];
@@ -49,17 +50,34 @@
 		$fileExt = strtolower(end(explode('.', $fileName)));
 		
 		$target_file = $upload_dir . basename($fileName);
+
 		
 		if (isset($_POST['submit'])) {
 			if (!in_array($fileExt, $allowedFileExt)) {
 				$errors[] = "File Extension not allowed. Please upload a Text or Markdown file";
 			}
-		
+			
 			if ($fileSize > 5242880) {
 				$errors[] = "File exceeds maximum size (5MiB)";
 			}
-		
+			
+			// file_exists works on Linux since everything is a file, even directories. For windows
+			// additionally is_dir should be checked too.
+			if (!file_exists($upload_dir) || !is_dir($upload_dir)) {
+				/* File (directory) permissions: 0664
+				 * 0 -> no special settings
+				 * 6 -> owning user can read + write (4 = read, 2 = write)
+				 * 6 -> owning group can read + write
+				 * 4 -> All others can only read
+				 */
+				if (!mkdir($upload_dir , 0664)) {
+					$errors[] = "Upload directory doesn't exist and couldn't be created.";
+				}
+			}
+
 			if (empty($errors)) {
+
+				// Move file from temporary upload location to target location
 				$uploadSuccess = move_uploaded_file($fileTmpName, $target_file);
 		
 				if ($uploadSuccess) {
