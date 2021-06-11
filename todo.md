@@ -2,7 +2,7 @@
 
 * [ ] Clearly divide View from Controller/Model -> Templates should not contain any logic except for rendering the page itself.
 * [ ] Make use of namespaces
-* [ ] Reder/Display Markdown
+* [x] Reder/Display Markdown
 * [ ] Upload (Design, Title, Description, etc...)
 * [ ] Commenting
 * [ ] List Blogs (Main Page)
