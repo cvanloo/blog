@@ -12,19 +12,6 @@
 
 <head>
 <body  class="bg-dark text-light">
-	
-	<style>
-		/* html, body {
-			background-color: black;
-			color: white;
-		} */
-	</style>
-
-	<form method="post" action="/upload" enctype="multipart/form-data">
-		Upload File:
-		<input type="file" name="new_file" id="fileToUpload">
-		<input type="submit" name="submit" value="Publish"> 
-	</form>
 
 	<div class="text-center mt-5 input-group input-group-lg">
 		<form style="max-width: 300px; margin: auto" method="post" action="/upload" enctype="multipart/form-data">
