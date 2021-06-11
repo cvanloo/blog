@@ -32,8 +32,8 @@
 			<input name="new_file" type="file" class="form-control bg-dark text-light"
 				required id="fileToUpload" />
 			<div class="mt-3 mb-1">
-				<button id="btnSubmit" disabled style="min-width: 300px"
-					type="submit" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
+				<button id="btnSubmit" style="min-width: 300px" type="submit"
+					class="btn btn-outline-success btn-lg btn-block">Publish</button>
 			</div>
 		</form>
 	</div>
