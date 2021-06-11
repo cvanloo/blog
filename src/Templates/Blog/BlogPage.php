@@ -16,7 +16,7 @@
 
 	require PHP_VENDOR.'erusev/parsedown/Parsedown.php';
 	
-	$md = file_get_contents('/uploads/test.md');
+	$md = file_get_contents('/uploads/uff/test.md');
 	
 	$MDParser = new \Parsedown();
 

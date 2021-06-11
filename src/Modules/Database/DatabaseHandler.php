@@ -89,7 +89,7 @@ class DatabaseHandler {
 		return true;
 	}
 
-	public function retrieve_user(string $acc_name) {
+	public function retrieve_user_by_name(string $acc_name) {
 		$statement = "SELECT * FROM user WHERE account_name = ?";
 		$stmt = $this->conn->prepare($statement);
 
@@ -98,6 +98,30 @@ class DatabaseHandler {
 
 		return $user;
 	}
+
+	public function store_blog(string $creator, string $title, string $path) : bool {
+		$statement = "INSERT INTO blog (creator_id, title, content_path)
+			VALUES (:creator,:title,:path)";
+
+		$data = [
+			'creator' => $creator,
+			'title' => $title,
+			'path' => $path
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	public function retrieve_blog() {}
 
 	public function update_password() {
 

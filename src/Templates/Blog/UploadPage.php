@@ -19,6 +19,10 @@
 			<h1 class="mb-3 h1">Upload File:</h1>
 			<input name="new_file" type="file" class="form-control bg-dark text-light"
 				required id="fileToUpload" />
+			<input name="title" type="text" class="form-control bg-dark text-light"
+				required id="title" placeholder="Title" />
+			<input name="description" type="text" class="form-control bg-dark text-light"
+				id="description" placeholder="Description (Optional)" />
 			<div class="mt-3 mb-1">
 				<button id="btnSubmit" style="min-width: 300px" type="submit"
 					class="btn btn-outline-success btn-lg btn-block">Publish</button>
@@ -36,7 +40,7 @@
 <?php
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$upload_dir = "/uploads/" . $_SESSION['accname'];
+		$upload_dir = "/uploads/" . $_SESSION['accname'] . '/';
 		$allowedFileExt = ['txt', 'md'];
 		
 		$errors = [];
@@ -49,46 +53,50 @@
 		
 		$target_file = $upload_dir . basename($fileName);
 
+		if (!in_array($fileExt, $allowedFileExt)) {
+			$errors[] = "File Extension not allowed. Please upload a Text or Markdown file";
+		}
 		
-		if (isset($_POST['submit'])) {
-			if (!in_array($fileExt, $allowedFileExt)) {
-				$errors[] = "File Extension not allowed. Please upload a Text or Markdown file";
+		if ($fileSize > 5242880) {
+			$errors[] = "File exceeds maximum size (5MiB)";
+		}
+		
+		// file_exists works on Linux since everything is a file, even directories. For windows
+		// additionally is_dir should be checked too.
+		if (!file_exists($upload_dir) || !is_dir($upload_dir)) {
+			/* File (directory) permissions: 0664
+				* 0 -> no special settings
+				* 6 -> owning user can read + write (4 = read, 2 = write)
+				* 6 -> owning group can read + write
+				* 4 -> All others can only read
+				*/
+			if (!mkdir($upload_dir , 0664)) {
+				$errors[] = "Upload directory doesn't exist and couldn't be created.";
 			}
-			
-			if ($fileSize > 5242880) {
-				$errors[] = "File exceeds maximum size (5MiB)";
-			}
-			
-			// file_exists works on Linux since everything is a file, even directories. For windows
-			// additionally is_dir should be checked too.
-			if (!file_exists($upload_dir) || !is_dir($upload_dir)) {
-				/* File (directory) permissions: 0664
-				 * 0 -> no special settings
-				 * 6 -> owning user can read + write (4 = read, 2 = write)
-				 * 6 -> owning group can read + write
-				 * 4 -> All others can only read
-				 */
-				if (!mkdir($upload_dir , 0664)) {
-					$errors[] = "Upload directory doesn't exist and couldn't be created.";
-				}
+		}
+
+		if (empty($errors)) {
+			$uploadSuccess = false;
+
+			// Move file from temporary upload location to target location
+			if (move_uploaded_file($fileTmpName, $target_file)) {
+				require PHP_MODULES.'Database/DatabaseHandler.php';
+				use Modules\Database\DatabaseHandler;
+				$db = new DatabaseHandler();
+	
+				$uploadSuccess = $db->store_blog($_SESSION['userid'], , $target_file)
 			}
 
-			if (empty($errors)) {
-				
-				// Move file from temporary upload location to target location
-				$uploadSuccess = move_uploaded_file($fileTmpName, $target_file);
-		
-				if ($uploadSuccess) {
-					echo "Successfully uploaded " . basename($fileName);
-				}
-				else {
-					echo "An error occured.";
-				}
+			if ($uploadSuccess) {
+				echo "Successfully uploaded " . basename($fileName);
 			}
 			else {
-				foreach ($errors as $error) {
-					echo $error . "\n";
-				}
+				echo "An error occured.";
+			}
+		}
+		else {
+			foreach ($errors as $error) {
+				echo $error . "\n";
 			}
 		}
 	}

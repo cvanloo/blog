@@ -19,7 +19,7 @@ class AuthHandler {
 	public function login(string $identifier, string $pw) {
 		$db = new DatabaseHandler();
 
-		$user = $db->retrieve_user($identifier);
+		$user = $db->retrieve_user_by_name($identifier);
 
 		$pwhash = $user['pw_hash'];
 		$id = $user['id'];
