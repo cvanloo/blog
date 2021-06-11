@@ -41,8 +41,6 @@
 		
 		$errors = [];
 
-		var_dump($_FILES);
-
 		$fileName = $_FILES['new_file']['name'];
 		$fileSize = $_FILES['new_file']['size'];
 		$fileTmpName = $_FILES['new_file']['tmp_name'];
@@ -76,7 +74,7 @@
 			}
 
 			if (empty($errors)) {
-
+				
 				// Move file from temporary upload location to target location
 				$uploadSuccess = move_uploaded_file($fileTmpName, $target_file);
 		
