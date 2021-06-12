@@ -53,13 +53,29 @@ CREATE TABLE blog (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	creator_id int NOT NULL,
 	title varchar(64) NOT NULL,
+	description varchar(512),
 	content_path varchar(256) NOT NULL,
 	create_datetime DATETIME NOT NULL DEFAULT NOW(),
 	is_archived TINYINT(1) NOT NULL DEFAULT 0,
 	is_deleted TINYINT(1) NOT NULL DEFAULT 0,
 
-	UNIQUE(content_path),
+	UNIQUE (content_path),
 	FOREIGN KEY (creator_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE tag (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	name varchar(12),
+
+	UNIQUE (name)
+);
+
+CREATE TABLE blog_tag (
+	blog_id int NOT NULL,
+	tag_id int NOT NULL,
+
+	FOREIGN KEY (blog_id) REFERENCES blog(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (tag_id) REFERENCES tag(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE comment (

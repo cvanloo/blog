@@ -12,16 +12,39 @@
 
 <head>
 <body  class="bg-dark text-light">
+	
+	<style>
+		.no-border-top {
+			border-top: 0px;
+			border-top-left-radius: 0px;
+			border-top-right-radius: 0px;
+		}
+
+		.no-border {
+			border-radius: 0px;
+		}
+
+		.no-border-bottom {
+			border-bottom: 0px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+
+		.bigger {
+			min-height: 50px;
+		}
+	</style>
+
 	<?php include_once PHP_TEMPLATES.'Blog/NavbarComponent.php'; ?>
 
 	<div class="text-center mt-5 input-group input-group-lg">
-		<form style="max-width: 300px; margin: auto" method="post" action="/upload" enctype="multipart/form-data">
+		<form style="max-width: 300px; margin: auto" method="post" action="/upload.php" enctype="multipart/form-data">
 			<h1 class="mb-3 h1">Upload File:</h1>
-			<input name="new_file" type="file" class="form-control bg-dark text-light"
+			<input name="new_file" type="file" class="form-control bg-dark text-light no-border-bottom"
 				required id="fileToUpload" />
-			<input name="title" type="text" class="form-control bg-dark text-light"
+			<input name="title" type="text" class="form-control bg-dark text-light bigger no-border"
 				required id="title" placeholder="Title" />
-			<input name="description" type="text" class="form-control bg-dark text-light"
+			<input name="description" type="text" class="form-control bg-dark text-light bigger no-border-top"
 				id="description" placeholder="Description (Optional)" />
 			<div class="mt-3 mb-1">
 				<button id="btnSubmit" style="min-width: 300px" type="submit"
@@ -36,69 +59,3 @@
 
 </body>
 </html>
-
-<?php
-
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$upload_dir = "/uploads/" . $_SESSION['accname'] . '/';
-		$allowedFileExt = ['txt', 'md'];
-		
-		$errors = [];
-
-		$fileName = $_FILES['new_file']['name'];
-		$fileSize = $_FILES['new_file']['size'];
-		$fileTmpName = $_FILES['new_file']['tmp_name'];
-		$fileType = $_FILES['new_file']['type'];
-		$fileExt = strtolower(end(explode('.', $fileName)));
-		
-		$target_file = $upload_dir . basename($fileName);
-
-		if (!in_array($fileExt, $allowedFileExt)) {
-			$errors[] = "File Extension not allowed. Please upload a Text or Markdown file";
-		}
-		
-		if ($fileSize > 5242880) {
-			$errors[] = "File exceeds maximum size (5MiB)";
-		}
-		
-		// file_exists works on Linux since everything is a file, even directories. For windows
-		// additionally is_dir should be checked too.
-		if (!file_exists($upload_dir) || !is_dir($upload_dir)) {
-			/* File (directory) permissions: 0664
-				* 0 -> no special settings
-				* 6 -> owning user can read + write (4 = read, 2 = write)
-				* 6 -> owning group can read + write
-				* 4 -> All others can only read
-				*/
-			if (!mkdir($upload_dir , 0664)) {
-				$errors[] = "Upload directory doesn't exist and couldn't be created.";
-			}
-		}
-
-		if (empty($errors)) {
-			$uploadSuccess = false;
-
-			// Move file from temporary upload location to target location
-			if (move_uploaded_file($fileTmpName, $target_file)) {
-				require PHP_MODULES.'Database/DatabaseHandler.php';
-				use Modules\Database\DatabaseHandler;
-				$db = new DatabaseHandler();
-	
-				$uploadSuccess = $db->store_blog($_SESSION['userid'], , $target_file)
-			}
-
-			if ($uploadSuccess) {
-				echo "Successfully uploaded " . basename($fileName);
-			}
-			else {
-				echo "An error occured.";
-			}
-		}
-		else {
-			foreach ($errors as $error) {
-				echo $error . "\n";
-			}
-		}
-	}
-
-?>
