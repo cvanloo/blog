@@ -29,6 +29,8 @@ define('is_admin', checkAuth());
 </head>
 <body class="bg-dark text-light">
 
+	<?php include_once PHP_TEMPLATES.'Blog/NavbarComponent.php'; ?>
+
 <?php
 
 if (is_admin) {
