@@ -15,9 +15,9 @@
 					<input class="form-control me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search">
 					<button class="btn btn-outline-success" type="submit">Search</button>
 				</form>
-				<li class="nav-item">
+				<!--li class="nav-item">
 					<a href="/" class="nav-link text-white">Home</a>
-				</li>
+				</li-->
 				<?php
 					if (isset($_SESSION['userid'])) {
 						echo '
@@ -33,7 +33,7 @@
 								User
 							</a>
 							<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item text-white" href="#">Preferences</a></li>
+								<li><a class="dropdown-item text-white" href="/pref">Preferences</a></li>
 								<li><a class="dropdown-item text-white" href="/logout">Logout</a></li>
 							</ul>
 						</li>';

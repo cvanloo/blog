@@ -44,6 +44,9 @@
 		case '/admin':
 			include_once PHP_TEMPLATES.'Admin/AdminPage.php';
 			break;
+		case '/pref':
+			include_once PHP_TEMPLATES.'Admin/PreferencesPage.php';
+			break;
 		}
 	}
 
