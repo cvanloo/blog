@@ -83,6 +83,7 @@ CREATE TABLE comment (
 	creator_id int NOT NULL,
 	blog_id int NOT NULL,
 	parent_id int,
+	content varchar(512) NOT NULL,
 	create_datetime DATETIME NOT NULL DEFAULT NOW(),
 	is_archived TINYINT(1) NOT NULL DEFAULT 0,
 	is_deleted TINYINT(1) NOT NULL DEFAULT 0,

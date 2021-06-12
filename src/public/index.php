@@ -13,33 +13,35 @@
 <body>-->
 
 <?php
-	//echo '<h1>Yeah, it works!<h1>';
-	
-	//echo $_SERVER['REQUEST_URI'];
-
 	$uri =  $_SERVER['REQUEST_URI'];
 
-	switch ($uri) {
-	case '/':
-		phpinfo();
-		break;
-	case '/login':
-		include_once PHP_TEMPLATES.'Auth/LoginPage.php';
-		break;
-	case '/register':
-		include_once PHP_TEMPLATES.'Auth/RegisterPage.php';
-		break;
-	case '/blog':
-		include_once PHP_TEMPLATES.'Blog/HomePage.php';
-		break;
-	case '/logout':
-		include_once PHP_TEMPLATES.'Auth/LogoutPage.php';
-		break;
-	case '/upload':
-		include_once PHP_TEMPLATES.'Blog/UploadPage.php';
-		break;
-	default:
-		echo "<p>Not found<p>";
+	if (substr($uri, 1, 1) === '@') {
+		include_once PHP_TEMPLATES.'Blog/PersonalPage.php';
+	}
+	else {
+		switch ($uri) {
+		case '/':
+			include_once PHP_TEMPLATES.'Blog/HomePage.php';
+			break;
+		case '/info':
+			phpinfo();
+			break;
+		case '/login':
+			include_once PHP_TEMPLATES.'Auth/LoginPage.php';
+			break;
+		case '/register':
+			include_once PHP_TEMPLATES.'Auth/RegisterPage.php';
+			break;
+		case '/logout':
+			include_once PHP_TEMPLATES.'Auth/LogoutPage.php';
+			break;
+		case '/upload':
+			include_once PHP_TEMPLATES.'Blog/UploadPage.php';
+			break;
+		case '/b':
+			include_once PHP_TEMPLATES.'Blog/BlogPage.php';
+			break;
+		}
 	}
 
 ?>

@@ -121,7 +121,55 @@ class DatabaseHandler {
 		return true;
 	}
 	
-	public function retrieve_blog() {}
+	public function retrieve_blog(int $limit) {
+		$statement = "SELECT * FROM blog LIMIT ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$limit]);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
+
+	public function store_comment(int $creator_id, int $blog_id, string $content) {
+		$statement = "INSERT INTO comment (creator_id, blog_id, content)
+			VALUES (:creator,:blog,:content)";
+
+		$data = [
+			'creator' => $creator_id,
+			'blog' => $blog_id,
+			'content' => $content
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function retrieve_comments(int $limit) {
+		$statement = "SELECT * FROM comment LIMIT ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$limit]);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
 
 	public function update_password() {
 
