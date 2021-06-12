@@ -36,7 +36,13 @@ class AuthHandler {
 		$id = $user['id'];
 		$accname = $user['account_name'];
 
+		// verify password
 		if (password_verify($pw, $pwhash)) {
+			// check if the passwords needs to be rehashed
+			if (password_needs_rehash($pwhash, PASSWORD_DEFAULT, ['cost' => 15])) {
+				$db->update_password($id, $pw);
+			}
+
 			return array('success' => true, 'id' => $id, 'accname' => $accname);
 		}
 

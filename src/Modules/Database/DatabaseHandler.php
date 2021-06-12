@@ -102,6 +102,19 @@ class DatabaseHandler {
 		}
 	}
 
+	public function retrieve_user_by_id(int $id) {
+		$statement = "SELECT * FROM user WHERE id = ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$id]);
+			return $stmt->fetch();
+		} catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
+
 	public function store_blog(string $creator, string $title, string $path) : bool {
 		$statement = "INSERT INTO blog (creator_id, title, content_path)
 			VALUES (:creator,:title,:path)";
@@ -254,16 +267,72 @@ class DatabaseHandler {
 		return true;
 	}
 
-	public function update_password() {
-		
+	public function update_password(int $id, string $new_password) {
+		$statement = "UPDATE user
+			SET pw_hash = :pwhash
+			WHERE id = :id";
+
+		$pwhash = password_hash($new_password, PASSWORD_DEFAULT, ["cost" => 15]);
+
+		$data = [
+			'pwhash' => $pwhash,
+			'id' => $id
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
 	}
 
-	public function update_accountname() {
+	public function update_email(int $id, string $new_email) {
+		$statement = "UPDATE user
+			SET email = :email
+			WHERE id = :id";
 
+		$data = [
+			'email' => $new_email,
+			'id' => $id
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
 	}
 
-	public function update_displayname() {
+	public function update_displayname(int $id, int $new_displayname) {
+		$statement = "UPDATE user
+			SET display_name = :display_name
+			WHERE id = :id";
 
+		$data = [
+			'display_name' => $new_displayname,
+			'id' => $id
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
 	}
 }
 
