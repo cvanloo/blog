@@ -92,11 +92,14 @@ class DatabaseHandler {
 	public function retrieve_user_by_name(string $acc_name) {
 		$statement = "SELECT * FROM user WHERE account_name = ?";
 		$stmt = $this->conn->prepare($statement);
-
-		$stmt->execute([$acc_name]);
-		$user = $stmt->fetch();
-
-		return $user;
+	
+		try {
+			$stmt->execute([$acc_name]);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
 	}
 
 	public function store_blog(string $creator, string $title, string $path) : bool {

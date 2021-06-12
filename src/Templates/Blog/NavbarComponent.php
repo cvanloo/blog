@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="padding: 0; max-width: 100%;">
 	<div class="container" style="background: #181b1e; max-width: 100%;">
-		<a href="/blog" class="navbar-brand">Blog</a>
+		<a href="/" class="navbar-brand">Blog</a>
 		<button type="button" class="navbar-toggler" data-bs-target="#navbarNav"
 			data-bs-toggle="collapse" aria-controls="navbarNav" aria-expanded="false"
 			aria-lable="Toggle Navbar">
@@ -16,7 +16,7 @@
 					<button class="btn btn-outline-success" type="submit">Search</button>
 				</form>
 				<li class="nav-item">
-					<a href="/blog" class="nav-link text-white">Home</a>
+					<a href="/" class="nav-link text-white">Home</a>
 				</li>
 				<?php
 					if (isset($_SESSION['userid'])) {

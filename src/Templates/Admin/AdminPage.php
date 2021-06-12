@@ -27,21 +27,15 @@ define('is_admin', checkAuth());
 	<title>Admin Page: <?php echo is_admin ? 'Authorized' : 'Unauthorized'; ?></title>
 
 </head>
-<body>
+<body class="bg-dark text-light">
 
 <?php
 
 if (is_admin) {
-	echo 'You are admin';
-
-	// Admin html
-	// * a search bar to search for a user account
-	// * display the users access rights
-	// * allow to modify the users access rights
-	// * allow to (un)block a user
+	include_once PHP_TEMPLATES.'Admin/admin.php';
 }
 else {
-	echo 'You are not an admin. Please go away :(';
+	include_once PHP_TEMPLATES.'Admin/goaway.php';
 }
 
 ?>

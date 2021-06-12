@@ -22,7 +22,7 @@
 			<button style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Logout</button>
 		</div>
 
-		<a href="/blog" class="badge badge-secondary">Go back</a>
+		<a href="/" class="badge badge-secondary">Go back</a>
 
 		</form>
 	</div>
