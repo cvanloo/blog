@@ -25,9 +25,15 @@ $is_admin = $access_right['ar_value'];
 
 if ($is_admin === 'true') {
 	echo 'You are admin';
+
+	// Admin html
+	// * a search bar to search for a user account
+	// * display the users access rights
+	// * allow to modify the users access rights
+	// * allow to (un)block a user
 }
 else {
-	echo 'You are not an admin';
+	echo 'You are not an admin. Please go away :(';
 }
 
 ?>
