@@ -13,7 +13,18 @@ class AuthHandler {
 	{
 		$db = new DatabaseHandler();
 
-		return $db->store_user($email, $acc_name, $pw);
+		// Create user account
+		if ($db->store_user($email, $acc_name, $pw)) {
+			// Retrieve id of just created account
+			$userid = $db->retrieve_user_by_name($acc_name)['id'];
+	
+			// Store user access rights
+			$db->store_access_right($userid, 'admin', 'false');
+			$db->store_access_right($userid, 'can_publish', 'true');
+			$db->store_access_right($userid, 'can_comment', 'true');
+		}
+
+		return true; // TODO: Database Transactions & Rollback
 	}
 
 	public function login(string $identifier, string $pw) {

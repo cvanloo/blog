@@ -193,7 +193,7 @@ class DatabaseHandler {
 		return true;
 	}
 
-	public function retrieve_access_right(int $user_id) {
+	public function retrieve_access_rights(int $user_id) {
 		$statement = "SELECT ar_key, ar_value FROM access_right
 			WHERE user_id = ?";
 
@@ -201,6 +201,26 @@ class DatabaseHandler {
 
 		try {
 			$stmt->execute([$user_id]);
+			return $stmt->fetchAll();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
+
+	public function retrieve_access_right(int $user_id, string $key) {
+		$statement = "SELECT ar_value FROM access_right
+			WHERE user_id = :id AND ar_key = :key";
+
+		$data = [
+			'id' => $user_id,
+			'key' => $key
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
 			return $stmt->fetch();
 		}
 		catch (PDOException $pdoEx) {
@@ -210,8 +230,8 @@ class DatabaseHandler {
 
 	public function update_access_right(int $user_id, string $key, string $new_value) {
 		$statement = "UPDATE access_right
-			SET :key = :new_value
-			WHERE user_id = :user_id";
+			SET ar_value = :new_value
+			WHERE user_id = :user_id AND ar_key = :key";
 
 		$data = [
 			'key' => $key,

@@ -15,11 +15,19 @@
 
 <?php
 
-if () {
+require PHP_MODULES.'Database/DatabaseHandler.php';
+use Modules\Database\DatabaseHandler;
 
+$db = new DatabaseHandler();
+$access_right = $db->retrieve_access_right($_SESSION['userid'], 'admin');
+
+$is_admin = $access_right['ar_value'];
+
+if ($is_admin === 'true') {
+	echo 'You are admin';
 }
 else {
-
+	echo 'You are not an admin';
 }
 
 ?>
