@@ -171,8 +171,68 @@ class DatabaseHandler {
 		}
 	}
 
-	public function update_password() {
+	public function store_access_right(int $user_id, string $key, string $value) {
+		$statement = "INSERT INTO access_right (user_id, ar_key, ar_value)
+			VALUES (:user,:key,:value)";
 
+		$data = [
+			'user' => $user_id,
+			'key' => $key,
+			'value' => $value
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function retrieve_access_right(int $user_id) {
+		$statement = "SELECT ar_key, ar_value FROM access_right
+			WHERE user_id = ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$user_id]);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
+
+	public function update_access_right(int $user_id, string $key, string $new_value) {
+		$statement = "UPDATE access_right
+			SET :key = :new_value
+			WHERE user_id = :user_id";
+
+		$data = [
+			'key' => $key,
+			'new_value' => $new_value,
+			'user_id' => $user_id
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function update_password() {
+		
 	}
 
 	public function update_accountname() {

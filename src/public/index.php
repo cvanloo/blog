@@ -41,6 +41,9 @@
 		case '/b':
 			include_once PHP_TEMPLATES.'Blog/BlogPage.php';
 			break;
+		case '/admin':
+			include_once PHP_TEMPLATES.'Admin/AdminPage.php';
+			break;
 		}
 	}
 
