@@ -1,3 +1,19 @@
+<?php
+require PHP_MODULES.'Database/DatabaseHandler.php';
+use Modules\Database\DatabaseHandler;
+
+function checkAuth() : bool {
+	$db = new DatabaseHandler();
+	$access_right = $db->retrieve_access_right($_SESSION['userid'], 'admin');
+	
+	$is_admin = $access_right['ar_value'];
+	return $is_admin === 'true' ? true : false;
+}
+
+define('is_admin', checkAuth());
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,22 +24,14 @@
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-	<title>Admin Page: <?php echo 'Unauthorized'; ?></title>
+	<title>Admin Page: <?php echo is_admin ? 'Authorized' : 'Unauthorized'; ?></title>
 
 </head>
 <body>
 
 <?php
 
-require PHP_MODULES.'Database/DatabaseHandler.php';
-use Modules\Database\DatabaseHandler;
-
-$db = new DatabaseHandler();
-$access_right = $db->retrieve_access_right($_SESSION['userid'], 'admin');
-
-$is_admin = $access_right['ar_value'];
-
-if ($is_admin === 'true') {
+if (is_admin) {
 	echo 'You are admin';
 
 	// Admin html
