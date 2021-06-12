@@ -20,23 +20,24 @@
 				</li-->
 				<?php
 					if (isset($_SESSION['userid'])) {
-						echo '
-						<li class="nav-item">
-						<a href="#" class="nav-link text-white">Personal Blog</a>
+						$accname = $_SESSION['accname'];
+						echo "
+						<li class='nav-item'>
+						<a href='@$accname' class='nav-link text-white'>Personal Blog</a>
 						</li>
-						<li class="nav-item">
-						<a href="/upload" class="nav-link text-white">Upload Blog</a>
+						<li class='nav-item'>
+						<a href='/upload' class='nav-link text-white'>Upload Blog</a>
 						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" id="navbarDropdown"
-								role="button" data-bs-toggle="dropdown" aria-expand="false">
+						<li class='nav-item dropdown'>
+							<a class='nav-link dropdown-toggle' id='navbarDropdown'
+								role='button' data-bs-toggle='dropdown' aria-expand='false'>
 								User
 							</a>
-							<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item text-white" href="/pref">Preferences</a></li>
-								<li><a class="dropdown-item text-white" href="/logout">Logout</a></li>
+							<ul class='dropdown-menu bg-dark' aria-labelledby='navbarDropdown'>
+								<li><a class='dropdown-item text-white' href='/pref'>Preferences</a></li>
+								<li><a class='dropdown-item text-white' href='/logout'>Logout</a></li>
 							</ul>
-						</li>';
+						</li>";
 					} else {
 						echo '
 						<li class="nav-item">
