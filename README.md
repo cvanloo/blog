@@ -10,6 +10,8 @@ Needed packages (Gentoo):
 * app-emulation/docker-compose
 * dev-db/mariadb
 
+run ```composer install``` to install required dependencies.
+
 ## docker-compose
 
 Make sure the docker service is running:
