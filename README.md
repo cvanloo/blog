@@ -107,7 +107,7 @@ From the project root directory run:
 
 ### Setup MariaDB (Windows)
 
-If the above for some reason doesn't work on Windows try:
+If the above for some reason doesn't work on Windows, try:
 
 From the project root directory run:
 
