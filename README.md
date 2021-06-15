@@ -72,7 +72,7 @@ Stop:
 
 When the docker service is running, find it's IP address:
 
-	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' blog_mariadb_1
+	docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' blog_mariadb_1
 
 The docker-compose.yaml is configured to assign a static ip address of
 ```172.19.0.3``` to the mariadb instance.
