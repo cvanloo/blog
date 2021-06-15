@@ -8,7 +8,7 @@ Modul 133 Project
 
 Needed packages:
 
-These are the packages names on Gentoo, but you should find them in your distro's repo too.
+These are the package names on Gentoo, but you should find them in your distro's repo too.
 
 * app-emulation/docker
 * app-emulation/docker-compose
@@ -17,7 +17,7 @@ These are the packages names on Gentoo, but you should find them in your distro'
 
 When compiling 'dev-lang/php' on Gentoo, make sure to use the 'pdo', 'xmlreader' and 'xmlwriter' local USE flags.
 
-run ```composer install``` to install required dependencies.
+Run ```composer install``` to install required dependencies.
 
 ## Windows
 
@@ -57,6 +57,8 @@ Make sure the docker service is running:
 
 	rc-service docker start # for OpenRC
 	systemctl start docker  # for systemd
+	
+	# On Windows start the Docker Desktop application
 
 Start:
 
@@ -70,7 +72,7 @@ Stop:
 
 When the docker service is running, find it's IP address:
 
-	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' blog_db_1
+	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' blog_mariadb_1
 
 The docker-compose.yaml is configured to assign a static ip address of
 ```172.19.0.3``` to the mariadb instance.
