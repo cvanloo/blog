@@ -17,8 +17,6 @@ These are the package names on Gentoo, but you should find them in your distro's
 
 When compiling 'dev-lang/php' on Gentoo, make sure to use the 'pdo', 'xmlreader' and 'xmlwriter' local USE flags.
 
-Run ```composer install``` to install required dependencies.
-
 ## Windows
 
 ### Install PHP
@@ -51,6 +49,10 @@ Once that's done run:
 
 Now download and install Docker Desktop with the WSL2 Backend: https://docs.docker.com/docker-for-windows/install/
 
+## Install dependencies
+
+Run ```composer install``` to install required dependencies.
+
 ## docker-compose
 
 Make sure the docker service is running:
@@ -79,7 +81,7 @@ The docker-compose.yaml is configured to assign a static ip address of
 
 Connect to the db:
 
-	mysql -h 172.19.0.3 -u admin -ptest
+	mysql -h 172.19.0.3 -u admin -ptest # note that this will store the password in your shell history, use just '-p' to avoid that
 
 Shut down the docker containers:
 
@@ -107,7 +109,7 @@ From the project root directory run:
 
 ### Setup MariaDB (Windows)
 
-If the above for some reason doesn't work on Windows try:
+If the above for some reason doesn't work on Windows, try:
 
 From the project root directory run:
 
