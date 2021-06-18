@@ -14,17 +14,25 @@
 
 		$result = $auth->login($identifier, $password);
 
+		$answer = array(
+			'success' => false,
+			'message' => ""
+		);
 
 		if (true == $result['success']) {
 			$_SESSION['userid'] = $result['id'];
 			$_SESSION['accname'] = $result['accname'];
 			$_SESSION['disname'] = $result['disname'];
-			
-			echo "<p>Successfully logged in.</p>";
+
+			$answer['success'] = true;
+			$answer['message'] = "Successfully logged in.";	
 		}
 		else {
-			echo "<p>Wrong credentials.</p>";
+			$answer['message'] = "Wrong credentials.";
 		}
+
+		$json = json_encode($answer);
+		echo $json;
 	}
 
 ?>

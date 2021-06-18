@@ -103,11 +103,16 @@ $(function() {
 		$.ajax({
 			method: "POST",
 			url: "/LoginPage.php",
-			data: { 'identifier': $('#identifier').val(), 'password': $('#password').val() }
+			data: { 'identifier': $('#identifier').val(), 'password': $('#password').val() },
+			dataType: 'json',
+			async: 'false'
 		})
 			.done(function(response) {
-				$('p.answer').html(response);
-				window.location = "/";
+				$('p.answer').html(response['message']);
+					
+				if (response['success']) {
+					window.location = "/";
+				}
 			});
 	});
 });

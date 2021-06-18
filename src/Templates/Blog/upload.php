@@ -11,6 +11,11 @@ use Modules\Database\DatabaseHandler;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$errors = [];
 	
+	$answer = array(
+		'success' => false,
+		'messages' => array(),
+	);
+
 	if (!isset($_SESSION['accname'])) {
 		$errors[] = "User is not logged in.";
 	}
@@ -28,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$target_file = $upload_dir . basename($fileName);
 	
 	if (!in_array($fileExt, $allowedFileExt)) {
-		$errors[] = "File Extension not allowed. Please upload a Text or Markdown file";
+		$errors[] = "File Extension not allowed. Please upload a Text or Markdown file.";
 	}
 	
 	if ($fileSize > 5242880) {
-		$errors[] = "File exceeds maximum size (5MiB)";
+		$errors[] = "File exceeds maximum size (5MiB).";
 	}
 	
 	// file_exists works on Linux since everything is a file, even directories. For windows
@@ -60,17 +65,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		}
 	
 		if ($uploadSuccess) {
-			echo "Successfully uploaded " . basename($fileName);
+			$answer['success'] = true;
+			$answer['messages'] = ["Successfully uploaded " . basename($fileName) . "."];
 		}
 		else {
-			echo "Failed to upload post.";
+			$answer['messages'] = ["Failed to upload post."];
 		}
 	}
 	else {
-		foreach ($errors as $error) {
-			echo $error . "\n";
-		}
+		$answer['messages'] = $errors;
 	}
+
+	$json = json_encode($answer);
+	echo $json;
 }
 
 ?>

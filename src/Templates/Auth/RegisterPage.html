@@ -110,17 +110,22 @@
 </html>
 
 <script>
-	$(function() {
-		$('#btnSubmit').click(function() {
-			$.ajax({
-				method: "POST",
-				url: "/RegisterPage.php",
-				data: { 'email': $('#email').val(), 'username': $('#username').val(), 'password': $('#password').val(), 'rep_password': $('#rep_password').val() }
-			})
-				.done(function(response) {
-					$('p.answer').html(response);
+$(function() {
+	$('#btnSubmit').click(function() {
+		$.ajax({
+			method: "POST",
+			url: "/RegisterPage.php",
+			data: { 'email': $('#email').val(), 'username': $('#username').val(), 'password': $('#password').val(), 'rep_password': $('#rep_password').val() },
+			dataType: 'json',
+			async: 'false'
+		})
+			.done(function(response) {
+				$('p.answer').html(response['message']);
+					
+				if (response['success']) {
 					window.location = "/login";
-				});
-		});
+				}
+			});
 	});
+});
 </script>

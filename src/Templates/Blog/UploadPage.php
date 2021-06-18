@@ -66,20 +66,32 @@
 </html>
 
 <script>
-	$(function() {
-		$('#upForm').submit(function(e) {
-			$.ajax({
-				method: "POST",
-				url: "/upload.php",
-				data: new FormData(this),
-				processData: false,
-				contentType: false
-			})
-				.done(function(response) {
-					$('p.answer').html(response);
+$(function() {
+	$('#upForm').submit(function(e) {
+		$.ajax({
+			method: "POST",
+			url: "/upload.php",
+			data: new FormData(this),
+			processData: false,
+			contentType: false,
+			//dataType: 'json',
+			async: 'false'
+		})
+			.done(function(response) {
+				answer = JSON.parse(response);
+				messages = answer['messages'];
+				$('p.answer').empty();
+
+				for (i in messages) {
+					$('p.answer').append(messages[i] + "<br>");
+				}
+
+				console.log(answer);	
+				if (answer['success']) {
 					window.location = "/";
-				});
-			e.preventDefault();
-		});
+				}
+			});
+		e.preventDefault()
 	});
+});
 </script>

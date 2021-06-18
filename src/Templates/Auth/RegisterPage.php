@@ -12,21 +12,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$password = sanitize($_POST['password']);
 	$rep_password = sanitize($_POST['rep_password']);
 
-	if ($password !== $rep_password) {
-		echo "Passwords don't match.";
-		exit();
-	}
 	
-	$auth = new AuthHandler();
-
-	$result = $auth->register($email, $username, $password);
-
-	if (true == $result) {
-		echo "Account created.";
+	$answer = array(
+		'success' => false,
+		'message' => ""
+	);
+	
+	if ($password !== $rep_password) {
+		$answer['message'] = "Passwords don't match.";
 	}
 	else {
-		echo "Something went wrong.";
+		$auth = new AuthHandler();
+	
+		$result = $auth->register($email, $username, $password);
+	
+		if (true == $result) {
+			$answer['success'] = true;
+			$answer['message'] = "Account created.";
+		}
+		else {
+			echo "Something went wrong.";
+			$answer['message'] = "Something went wrong.";
+		}
 	}
+	
+	$json = json_encode($answer);
+	echo $json;
 }
 
 ?>
