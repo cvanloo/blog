@@ -3,15 +3,6 @@
 	require PHP_MODULES.'Session/session.php';
 ?>
 
-<!--<!DOCTYPE html>
-<html>
-<head>
-
-	<!--link rel="stylesheet" href="assets/css/general.css" type="text/css"--><!--
-
-</head>
-<body>-->
-
 <?php
 	$uri =  $_SERVER['REQUEST_URI'];
 
@@ -44,13 +35,15 @@
 		case '/admin':
 			include_once PHP_TEMPLATES.'Admin/AdminPage.php';
 			break;
+		case '/var/php/Templates/admin.php':
+			include_once PHP_TEMPLATES.'Admin/admin.php';
+			break;
 		case '/pref':
 			include_once PHP_TEMPLATES.'Admin/PreferencesPage.php';
 			break;
+		default:
+			echo $uri;
 		}
 	}
 
 ?>
-
-<!--</body>
-</html>-->

@@ -3,11 +3,16 @@ require PHP_MODULES.'Database/DatabaseHandler.php';
 use Modules\Database\DatabaseHandler;
 
 function checkAuth() : bool {
-	$db = new DatabaseHandler();
-	$access_right = $db->retrieve_access_right($_SESSION['userid'], 'admin');
-	
-	$is_admin = $access_right['ar_value'];
-	return $is_admin === 'true' ? true : false;
+	$is_admin = false;
+
+	if (isset($_SESSION['userid'])) {
+		$db = new DatabaseHandler();
+		$access_right = $db->retrieve_access_right($_SESSION['userid'], 'admin');
+		
+		$is_admin = $access_right['ar_value'] == 'true' ? true : false;
+	}
+
+	return $is_admin;
 }
 
 define('is_admin', checkAuth());
@@ -26,6 +31,9 @@ define('is_admin', checkAuth());
 
 	<title>Admin Page: <?php echo is_admin ? 'Authorized' : 'Unauthorized'; ?></title>
 
+	<!-- AJAX JQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 <body class="bg-dark text-light">
 
@@ -34,7 +42,7 @@ define('is_admin', checkAuth());
 <?php
 
 if (is_admin) {
-	include_once PHP_TEMPLATES.'Admin/admin.php';
+	include_once PHP_TEMPLATES.'Admin/admin.html';
 }
 else {
 	include_once PHP_TEMPLATES.'Admin/goaway.php';
