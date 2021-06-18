@@ -91,7 +91,7 @@ $(function() {
 					window.location = "/";
 				}
 			});
-		e.preventDefault()
+		e.preventDefault();
 	});
 });
 </script>
