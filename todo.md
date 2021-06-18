@@ -1,6 +1,7 @@
 # TODO
 
 * [ ] Clearly divide View from Controller/Model -> Templates should not contain any logic except for rendering the page itself.
+* [ ] Finish Account creation/login -> check identifier (email or pw?), does account already exist?
 * [ ] Make use of namespaces
 * [x] Reder/Display Markdown
 * [ ] Upload (Design, Title, Description, etc...)

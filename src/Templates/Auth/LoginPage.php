@@ -18,6 +18,8 @@
 		if (true == $result['success']) {
 			$_SESSION['userid'] = $result['id'];
 			$_SESSION['accname'] = $result['accname'];
+			$_SESSION['disname'] = $result['disname'];
+			
 			echo "<p>Successfully logged in.</p>";
 		}
 		else {

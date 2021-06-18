@@ -35,6 +35,7 @@ class AuthHandler {
 		$pwhash = $user['pw_hash'];
 		$id = $user['id'];
 		$accname = $user['account_name'];
+		$disname = $user['display_name'];
 
 		// verify password
 		if (password_verify($pw, $pwhash)) {
@@ -43,7 +44,7 @@ class AuthHandler {
 				$db->update_password($id, $pw);
 			}
 
-			return array('success' => true, 'id' => $id, 'accname' => $accname);
+			return array('success' => true, 'id' => $id, 'accname' => $accname, 'disname' => $disname);
 		}
 
 		return array('success' => false);

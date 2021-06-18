@@ -20,9 +20,13 @@
 		case '/login':
 			include_once PHP_TEMPLATES.'Auth/LoginPage.html';
 			break;
-		case '/var/php/Templates/LoginPage.php':
+		case '/LoginPage.php':
 			include_once PHP_TEMPLATES.'Auth/LoginPage.php';
+			break;
 		case '/register':
+			include_once PHP_TEMPLATES.'Auth/RegisterPage.html';
+			break;
+		case '/RegisterPage.php':
 			include_once PHP_TEMPLATES.'Auth/RegisterPage.php';
 			break;
 		case '/logout':
@@ -30,6 +34,9 @@
 			break;
 		case '/upload':
 			include_once PHP_TEMPLATES.'Blog/UploadPage.php';
+			break;
+		case '/upload.php':
+			include_once PHP_TEMPLATES.'Blog/upload.php';
 			break;
 		case '/b':
 			include_once PHP_TEMPLATES.'Blog/BlogPage.php';

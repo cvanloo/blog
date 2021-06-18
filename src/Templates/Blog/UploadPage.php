@@ -8,7 +8,10 @@
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-	<title>Personal Blog, Publish></title>
+	<!-- AJAX JQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<title>Personal Blog, Publish</title>
 
 <head>
 <body  class="bg-dark text-light">
@@ -38,7 +41,7 @@
 	<?php include_once PHP_TEMPLATES.'Blog/NavbarComponent.php'; ?>
 
 	<div class="text-center mt-5 input-group input-group-lg">
-		<form style="max-width: 300px; margin: auto" method="post" action="/upload.php" enctype="multipart/form-data">
+		<form id="upForm" style="max-width: 300px; margin: auto" method="post" enctype="multipart/form-data">
 			<h1 class="mb-3 h1">Upload File:</h1>
 			<input name="new_file" type="file" class="form-control bg-dark text-light no-border-bottom"
 				required id="fileToUpload" />
@@ -59,3 +62,22 @@
 
 </body>
 </html>
+
+<script>
+	$(function() {
+		$('#upForm').submit(function(e) {
+			$.ajax({
+				method: "POST",
+				url: "/upload.php",
+				data: new FormData(this),
+				processData: false,
+				contentType: false
+			})
+				.done(function(response) {
+					$('p.answer').html(response);
+					window.location = "/";
+				});
+			e.preventDefault();
+		});
+	});
+</script>
