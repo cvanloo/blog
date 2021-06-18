@@ -81,7 +81,7 @@ The docker-compose.yaml is configured to assign a static ip address of
 
 Connect to the db:
 
-	mysql -h 172.19.0.3 -u admin -ptest
+	mysql -h 172.19.0.3 -u admin -ptest # note that this will store the password in your shell history, use just '-p' to avoid that
 
 Shut down the docker containers:
 
