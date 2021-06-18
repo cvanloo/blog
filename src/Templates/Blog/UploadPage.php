@@ -53,6 +53,8 @@
 				<button id="btnSubmit" style="min-width: 300px" type="submit"
 					class="btn btn-outline-success btn-lg btn-block">Publish</button>
 			</div>
+
+			<p class="answer"></p>
 		</form>
 	</div>
 
