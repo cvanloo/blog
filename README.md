@@ -17,8 +17,6 @@ These are the package names on Gentoo, but you should find them in your distro's
 
 When compiling 'dev-lang/php' on Gentoo, make sure to use the 'pdo', 'xmlreader' and 'xmlwriter' local USE flags.
 
-Run ```composer install``` to install required dependencies.
-
 ## Windows
 
 ### Install PHP
@@ -50,6 +48,10 @@ Once that's done run:
 	wsl --set-default-version 2
 
 Now download and install Docker Desktop with the WSL2 Backend: https://docs.docker.com/docker-for-windows/install/
+
+## Install dependencies
+
+Run ```composer install``` to install required dependencies.
 
 ## docker-compose
 
