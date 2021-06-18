@@ -18,8 +18,10 @@
 			phpinfo();
 			break;
 		case '/login':
-			include_once PHP_TEMPLATES.'Auth/LoginPage.php';
+			include_once PHP_TEMPLATES.'Auth/LoginPage.html';
 			break;
+		case '/var/php/Templates/LoginPage.php':
+			include_once PHP_TEMPLATES.'Auth/LoginPage.php';
 		case '/register':
 			include_once PHP_TEMPLATES.'Auth/RegisterPage.php';
 			break;
