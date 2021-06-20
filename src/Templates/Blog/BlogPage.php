@@ -10,7 +10,7 @@
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-	<title>Blog <?php echo '???' ?></title>
+	<title><?php echo user['display_name'].': '.blog ?></title>
 
 <head>
 <body class="bg-dark text-light">
@@ -21,13 +21,11 @@
 
 ?>
 
-<div class="container d-grid gap-5">
+<div class="container d-grid gap-5 mt-5 mb-5">
 <?php
-	echo $_SERVER['REQUEST_URI'];
-
 	require PHP_VENDOR.'erusev/parsedown/Parsedown.php';
 	
-	$md = file_get_contents('/uploads/uff/todo.md');
+	$md = file_get_contents(blog['content_path']);
 	
 	$MDParser = new \Parsedown();
 
@@ -38,23 +36,29 @@
 <div class="container d-grid gap-5">
 <!-- Comment Section -->
 <!-- Create Comment -->
-	<form >
+	<form class="p-2 border border-success border-2" method="post" action="<?php echo $uri ?>">
 		<input type="text" name="comment" placeholder="Write a comment" />
-		<input type="button" name="submit" value="Comment" />
+		<input type="submit" name="submit" value="Comment" />
 	</form>
 
 <!-- Comments -->
 	<?php
 
-	require PHP_MODULES.'Database/DatabaseHandler.php';
+	require_once PHP_MODULES.'Database/DatabaseHandler.php';
 	use Modules\Database\DatabaseHandler;
 
 	$db = new DatabaseHandler();
 	$comments = $db->retrieve_comments(20);
 	
-	foreach ($comments as $comment) {
-		var_dump($comment);
-		echo '<br>';
+	if (null !== $comments) {
+		foreach ($comments as $comment) {
+			echo $comment['content'];
+			echo '<br>';
+		}
+	}
+	else {
+		echo '<p>There are no comments yet.<br>';
+		echo 'Be the first to write one.</p>';
 	}
 
 	?>
@@ -67,3 +71,14 @@
 
 </body>
 </html>
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	echo $_POST['comment'];
+
+	$db = new DatabaseHandler();
+	$db->store_comment(user['id'], blog['id'], $_POST['comment']);
+}
+
+?>

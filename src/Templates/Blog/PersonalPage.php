@@ -22,6 +22,23 @@ $blog_post = str_replace($output[1], '', $blog_post);
 
 // Remove / from start and end, if there are any
 $blog_post = trim($blog_post, '/');
-echo $blog_post;
+
+define('user', $user);
+
+if ($blog_post) {
+	// TODO: The user can put anything into an url, validate it first!
+	$blog = $db->retrieve_blog_by_name(user['id'], $blog_post);
+
+	if (null !== $blog) {
+		define('blog', $blog);
+	}
+}
+
+if (defined('blog')) {
+	include_once PHP_TEMPLATES.'Blog/BlogPage.php';
+}
+else {
+	include_once PHP_TEMPLATES.'Blog/UserPage.php';
+}
 
 ?>

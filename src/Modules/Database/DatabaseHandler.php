@@ -136,6 +136,27 @@ class DatabaseHandler {
 
 		return true;
 	}
+
+	public function retrieve_blog_by_name(string $user_id, string $name) {
+		$statement = "SELECT * FROM blog
+			WHERE title = :title
+			AND creator_id = :id";
+
+		$stmt = $this->conn->prepare($statement);
+
+		$data = [
+			'title' => $name,
+			'id' => $user_id
+		];
+
+		try {
+			$stmt->execute($data);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
 	
 	public function retrieve_blog(int $limit) {
 		$statement = "SELECT * FROM blog LIMIT ?";

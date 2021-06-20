@@ -78,6 +78,7 @@ $(function() {
 			async: 'false'
 		})
 			.done(function(response) {
+				console.log(response);
 				answer = JSON.parse(response);
 				messages = answer['messages'];
 				$('p.answer').empty();
