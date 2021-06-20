@@ -60,6 +60,7 @@ CREATE TABLE blog (
 	is_deleted TINYINT(1) NOT NULL DEFAULT 0,
 
 	UNIQUE (content_path),
+	UNIQUE (creator_id, title),
 	FOREIGN KEY (creator_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
