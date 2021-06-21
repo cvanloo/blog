@@ -200,8 +200,8 @@ class DatabaseHandler {
 		$stmt = $this->conn->prepare($statement);
 
 		try {
-			//$stmt->execute([(int)$limit]);
-			$stmt->bindValue(':max', (int) $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			//$stmt->execute([$limit]);
+			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
 			$stmt->execute();
 			return $stmt->fetchAll();
 		}
