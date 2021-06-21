@@ -159,13 +159,14 @@ class DatabaseHandler {
 	}
 	
 	public function retrieve_blog(int $limit) {
-		$statement = "SELECT * FROM blog LIMIT ?";
+		$statement = "SELECT * FROM blog LIMIT :max";
 
 		$stmt = $this->conn->prepare($statement);
 
 		try {
-			$stmt->execute([$limit]);
-			return $stmt->fetch();
+			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			$stmt->execute();
+			return $stmt->fetchAll();
 		}
 		catch (PDOException $pdoEx) {
 			return null;
@@ -194,14 +195,16 @@ class DatabaseHandler {
 		return true;
 	}
 
-	public function retrieve_comments(int $limit) {
-		$statement = "SELECT * FROM comment LIMIT :max";
+	public function retrieve_comments(int $blog_id, int $limit) {
+		$statement = "SELECT * FROM comment
+			WHERE blog_id = :id
+			LIMIT :max";
 
 		$stmt = $this->conn->prepare($statement);
 
 		try {
-			//$stmt->execute([$limit]);
 			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			$stmt->bindValue(':id', $blog_id);
 			$stmt->execute();
 			return $stmt->fetchAll();
 		}

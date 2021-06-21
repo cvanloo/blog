@@ -48,9 +48,9 @@
 	use Modules\Database\DatabaseHandler;
 
 	$db = new DatabaseHandler();
-	$comments = $db->retrieve_comments(20);
+	$comments = $db->retrieve_comments(blog['id'], 20);
 	
-	if (null !== $comments) {
+	if (null !== $comments && !empty($comments)) {
 		foreach ($comments as $comment) {
 			echo $comment['content'];
 			echo '<br>';

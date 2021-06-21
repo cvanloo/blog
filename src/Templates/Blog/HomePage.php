@@ -20,36 +20,22 @@
 ?>
 
 <div class="container d-grid gap-5" style="margin-top: 60px;">
-	<div class="p-5 border">
-		<p>
-			<?php include_once PHP_TEMPLATES.'Blog/BlogComponent.php'; ?>
-		</p>
-	</div>
-	<div class="p-5 border">
-		<p>
-			Hello fancy world!
-		</p>
-	</div>
-	<div class="p-5 border">
-		<p>
-			Hello fancy world!
-		</p>
-	</div>
-	<div class="p-5 border">
-		<p>
-			Hello fancy world!
-		</p>
-	</div>
-	<div class="p-5 border">
-		<p>
-			Hello fancy world!
-		</p>
-	</div>
-	<div class="p-5 border">
-		<p>
-			Hello fancy world!
-		</p>
-	</div>
+	<?php
+		// Get blogs
+		require_once PHP_MODULES.'Database/DatabaseHandler.php';
+		use Modules\Database\DatabaseHandler;
+		$db = new DatabaseHandler();
+
+		$blogs = $db->retrieve_blog(50);
+
+		if (null == $blogs) exit();
+
+		// Display all blogs
+		foreach ($blogs as $blog) {
+			$user_name = $db->retrieve_user_by_id($blog['creator_id'])['account_name'];
+			include PHP_TEMPLATES.'Blog/BlogPreviewComponent.php';
+		}
+	?>
 </div>
 
 
