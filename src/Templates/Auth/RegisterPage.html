@@ -71,7 +71,7 @@
 	</style>
 
 	<div class="text-center mt-5 input-group input-group-lg">
-		<div style="max-width: 300px; margin: auto">
+		<form id="creatForm" style="max-width: 300px; margin: auto">
 			<h1 class="mb-3 h1">Create Account</h1>
 			<input id="email" type="email" placeholder="Email"
 				class="form-control bg-dark text-light no-border-bottom bigger" 
@@ -99,7 +99,7 @@
 			<a href="login" class="badge badge-secondary">Sign in instead</a>
 
 			<p class="answer"></p>
-		</div>
+		</form>
 	</div>
 	
 	<!-- Popper and Bootstrap JS -->
@@ -111,7 +111,7 @@
 
 <script>
 $(function() {
-	$('#btnSubmit').click(function() {
+	$('#creatForm').submit(function(e) {
 		$.ajax({
 			method: "POST",
 			url: "/RegisterPage.php",
@@ -126,6 +126,7 @@ $(function() {
 					window.location = "/login";
 				}
 			});
+		e.preventDefault();
 	});
 });
 </script>

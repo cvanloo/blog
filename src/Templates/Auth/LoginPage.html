@@ -66,7 +66,7 @@
 
 	<!--<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>-->
 	<div class="text-center mt-5 input-group input-group-lg">
-		<div style="max-width: 300px; margin: auto">
+		<form id="loginForm" style="max-width: 300px; margin: auto">
 			<h1 class="mb-3 h1">Login</h1>
 			<input id="identifier" type="text" placeholder="Username/Email"
 				class="form-control bg-dark text-light" required onkeyup="validate();" />
@@ -87,7 +87,7 @@
 			<a href="register" class="badge badge-secondary">Create an Account</a>
 
 			<p class="answer"></p>
-		</div>
+		</form>
 	</div>
 
 	<!-- Popper and Bootstrap JS -->
@@ -99,7 +99,7 @@
 
 <script>
 $(function() {
-	$('#btnSubmit').click(function() {
+	$('#loginForm').submit(function(e) {
 		$.ajax({
 			method: "POST",
 			url: "/LoginPage.php",
@@ -114,6 +114,7 @@ $(function() {
 					window.location = "/";
 				}
 			});
+		e.preventDefault();
 	});
 });
 </script>
