@@ -70,6 +70,19 @@ Stop:
 
 	docker-compose stop
 
+Completely reset (delete) the containers:
+
+	docker-compose down -v
+
+To remove an image:
+
+	docker images # show all images
+	docker rmi <image-id> --force
+
+To rebuild an image:
+
+	docker-compose build <service>
+
 ## mariadb
 
 When the docker service is running, find it's IP address:
@@ -83,22 +96,11 @@ Connect to the db:
 
 	mysql -h 172.19.0.3 -u admin -ptest # note that this will store the password in your shell history, use just '-p' to avoid that
 
-Shut down the docker containers:
+Enable query logging:
 
-	docker-compose stop
-
-Completely reset (delete) the containers:
-
-	docker-compose down -v
-
-To remove an image:
-
-	docker images # show all images
-	docker rmi <image-id> --force
-
-To rebuild an image:
-
-	docker-compose build <service>
+	mysql -h 172.19.0.3 -u root -ptoor # Connect as root
+	SET GLOBAL general_log=1;
+	SET GLOBAL general_log_file='/var/log/mysql/mariadb.log';
 
 ### Setup MariaDB (Linux)
 
