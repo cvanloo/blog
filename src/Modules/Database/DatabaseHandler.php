@@ -195,15 +195,18 @@ class DatabaseHandler {
 	}
 
 	public function retrieve_comments(int $limit) {
-		$statement = "SELECT * FROM comment LIMIT ?";
+		$statement = "SELECT * FROM comment LIMIT :max";
 
 		$stmt = $this->conn->prepare($statement);
 
 		try {
-			$stmt->execute([$limit]);
-			return $stmt->fetch();
+			//$stmt->execute([(int)$limit]);
+			$stmt->bindValue(':max', (int) $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			$stmt->execute();
+			return $stmt->fetchAll();
 		}
 		catch (PDOException $pdoEx) {
+			echo $pdoEx;
 			return null;
 		}
 	}
