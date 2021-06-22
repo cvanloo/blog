@@ -13,7 +13,7 @@
 			<ul class="navbar-nav">
 				<form class="d-flex mx-auto" >
 					<input class="form-control me-2 bg-dark text-white" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
+					<!--button class="btn btn-outline-success" type="submit">Search</button-->
 				</form>
 				<!--li class="nav-item">
 					<a href="/" class="nav-link text-white">Home</a>

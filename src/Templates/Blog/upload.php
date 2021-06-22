@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$fileTmpName = $_FILES['new_file']['tmp_name'];
 	$fileType = $_FILES['new_file']['type'];
 	$fileExt = strtolower(end(explode('.', $fileName))); // gets the file extension
-	
-	$target_file = $upload_dir . basename($fileName);
+		
+	$target_file = $upload_dir . uniqid() . basename($fileName);
 	
 	if (!in_array($fileExt, $allowedFileExt)) {
 		$errors[] = "File Extension not allowed. Please upload a Text or Markdown file.";
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (move_uploaded_file($fileTmpName, $target_file)) {
 			$db = new DatabaseHandler();
 	
-			$uploadSuccess = $db->store_blog($_SESSION['userid'], $_POST['title'], $target_file);
+			$uploadSuccess = $db->store_blog($_SESSION['userid'], $_POST['title'], $target_file, $_POST['description']);
 		}
 	
 		if ($uploadSuccess) {

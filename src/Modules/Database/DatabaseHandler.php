@@ -115,14 +115,15 @@ class DatabaseHandler {
 		}
 	}
 
-	public function store_blog(string $creator, string $title, string $path) : bool {
-		$statement = "INSERT INTO blog (creator_id, title, content_path)
-			VALUES (:creator,:title,:path)";
+	public function store_blog(string $creator, string $title, string $path, string $description) : bool {
+		$statement = "INSERT INTO blog (creator_id, title, content_path, description)
+			VALUES (:creator,:title,:path,:description)";
 
 		$data = [
 			'creator' => $creator,
 			'title' => $title,
-			'path' => $path
+			'path' => $path,
+			'description' => $description
 		];
 
 		$stmt = $this->conn->prepare($statement);

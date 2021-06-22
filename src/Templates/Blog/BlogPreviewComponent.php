@@ -1,5 +1,6 @@
 <!-- Blog Preview Component -->
-<a href="<?php echo '@' . $user_name . '/' . $blog['title']; ?>">
+<a href="<?php echo '@' . $user_name . '/' . $blog['title']; ?>"
+	style="text-decoration: none; color: white;">
 <div class="p-5 border">
 	<p>
 		<?php
