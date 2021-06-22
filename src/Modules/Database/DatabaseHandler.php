@@ -159,13 +159,21 @@ class DatabaseHandler {
 		}
 	}
 	
-	public function retrieve_blog(int $limit) {
-		$statement = "SELECT * FROM blog LIMIT :max";
+	public function retrieve_blog(int $limit, int $user_id = null) {
+		$statement = "";
 
+		if (null == $user_id) {
+			$statement = "SELECT * FROM blog LIMIT :max";
+		}
+		else {
+			$statement = "SELECT * FROM blog WHERE creator_id = :id LIMIT :max;";
+		}
+			
 		$stmt = $this->conn->prepare($statement);
 
 		try {
 			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			if (null != $user_id) { $stmt->bindValue(':id', $user_id); }
 			$stmt->execute();
 			return $stmt->fetchAll();
 		}
