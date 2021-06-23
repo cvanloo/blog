@@ -30,12 +30,12 @@
 
 		$blogs = $db->retrieve_blog(50, user['id']);
 
-		if (null == $blogs) exit();
-
-		// Display all blogs
-		foreach ($blogs as $blog) {
-			$user_name = $db->retrieve_user_by_id($blog['creator_id'])['account_name'];
-			include PHP_TEMPLATES.'Blog/BlogPreviewComponent.php';
+		if (null !== $blogs) {
+			// Display all blogs
+			foreach ($blogs as $blog) {
+				$user_name = $db->retrieve_user_by_id($blog['creator_id'])['account_name'];
+				include PHP_TEMPLATES.'Blog/BlogPreviewComponent.php';
+			}
 		}
 	?>
 </div>
