@@ -15,6 +15,7 @@ CREATE TABLE user (
 	create_date DATE NOT NULL DEFAULT CURDATE(),
 	is_blocked TINYINT(1) NOT NULL DEFAULT 0,
 	is_deleted TINYINT(1) NOT NULL DEFAULT 0,
+	biography varchar(512),
 
 	UNIQUE (email),
 	UNIQUE (account_name)

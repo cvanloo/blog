@@ -19,7 +19,7 @@
 
 ?>
 
-<div class="container d-grid gap-5" style="margin-top: 60px;">
+<div class="container d-grid gap-5" style="margin-top: 60px; overflow: hidden;">
 	<?php
 		// Get blogs
 		require_once PHP_MODULES.'Database/DatabaseHandler.php';
