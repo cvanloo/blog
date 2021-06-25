@@ -53,8 +53,10 @@
 	
 	if (null !== $comments && !empty($comments)) {
 		foreach ($comments as $comment) {
-			echo $comment['content'];
-			echo '<br>';
+			// $user = $db->retrieve_user_by_id($comment['creator_id'])['display_name'];
+			// echo "<p style=\"border-bottom: 2px solid;\">" . $user . ": " . $comment['content'] . "</p>";
+			// echo '<br>';
+			include PHP_TEMPLATES.'Blog/CommentComponent.php';
 		}
 	}
 	else {
@@ -76,10 +78,8 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	echo $_POST['comment'];
-
 	$db = new DatabaseHandler();
-	$db->store_comment(user['id'], blog['id'], $_POST['comment']);
+	$res = $db->store_comment($_SESSION['userid'], blog['id'], $_POST['comment']);
 }
 
 ?>

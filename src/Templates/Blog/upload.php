@@ -39,6 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if ($fileSize > 5242880) {
 		$errors[] = "File exceeds maximum size (5MiB).";
 	}
+
+	$mimeType = mime_content_type($fileTmpName);
+	if ("text/plain" !== $mimeType) {
+		$errors[] = "Mime type '" . $mimeType . "' disallowed.";
+	}
 	
 	// file_exists works on Linux since everything is a file, even directories. For windows
 	// additionally is_dir should be checked too.
