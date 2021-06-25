@@ -19,6 +19,7 @@ $user = $db->retrieve_user_by_name($accname);
 // Check if the url contains more than just a username
 $blog_post = str_replace($output[0], '', $uri);
 $blog_post = str_replace($output[1], '', $blog_post);
+$blog_post = urldecode($blog_post);
 
 // Remove / from start and end, if there are any
 $blog_post = trim($blog_post, '/');
