@@ -28,6 +28,7 @@
 	$md = file_get_contents(blog['content_path']);
 	
 	$MDParser = new \Parsedown();
+	$MDParser->setSafeMode(true); // Prevent XSS
 
 	echo $MDParser->text($md);
 ?>
