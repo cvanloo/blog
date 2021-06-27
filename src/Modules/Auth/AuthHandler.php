@@ -29,8 +29,14 @@ class AuthHandler {
 
 	public function login(string $identifier, string $pw) {
 		$db = new DatabaseHandler();
-
-		$user = $db->retrieve_user_by_name($identifier);
+		
+		$user = null; 
+		if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+			$user = $db->retrieve_user_by_email($identifier);
+		}
+		else {
+			$user = $db->retrieve_user_by_name($identifier);
+		}
 
 		$pwhash = $user['pw_hash'];
 		$id = $user['id'];

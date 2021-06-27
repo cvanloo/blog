@@ -101,6 +101,19 @@ class DatabaseHandler {
 			return null;
 		}
 	}
+	
+	public function retrieve_user_by_email(string $email) {
+		$statement = "SELECT * FROM user WHERE email = ?";
+		$stmt = $this->conn->prepare($statement);
+	
+		try {
+			$stmt->execute([$email]);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
 
 	public function retrieve_user_by_id(int $id) {
 		$statement = "SELECT * FROM user WHERE id = ?";

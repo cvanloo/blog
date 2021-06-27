@@ -47,11 +47,12 @@
 				required id="fileToUpload" />
 			<input name="title" type="text" class="form-control bg-dark text-light bigger no-border"
 				required id="title" placeholder="Title" />
-			<!--input name="description" type="text" class="form-control bg-dark text-light bigger no-border-top"
-				id="description" placeholder="Description (Optional)" /-->
 			<textarea name="description" type="text" maxlength="512"
-				class="form-control bg-dark text-light bigger no-border-top"
+				class="form-control bg-dark text-light bigger no-border no-border-top"
 				id="description" placeholder="Description (Optional)"></textarea>
+			<textarea name="tags" type="text" maxlength="80"
+				class="form-control bg-dark text-light bigger no-border-top"
+				id="tags" placeholder="#Tags (Optional)"></textarea>
 			<div class="mt-3 mb-1">
 				<button id="btnSubmit" style="min-width: 300px" type="submit"
 					class="btn btn-outline-success btn-lg btn-block">Publish</button>
