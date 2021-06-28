@@ -13,19 +13,6 @@
 
 	<title>User Preferences: <?php echo $_SESSION['accname'] ?></title>
 
-	<script type="text/javascript">
-
-	function validate() {
-		var inputs  = document.getElementsByTagName('input');
-		var btn = document.getElementById('btnSubmit');
-	
-		
-
-		btn.disabled = false;
-	}
-
-	</script>
-
 	<style>
 		input[type="text"], input[type="email"], input[type="password"] {
 			min-height: 50px;
@@ -72,12 +59,12 @@
 			<p class="form-control bg-dark text-light">Account Name: <?php echo $user['account_name']; ?> </p>
 			
 			<input id="disname" type="text" placeholder="Display Name: <?php echo $user['account_name']; ?>"
-				class="form-control bg-dark text-light no-border-bottom" onkeyup="validate();" />
+				class="form-control bg-dark text-light no-border-bottom" />
 			<input id="email" type="email" placeholder="Email Address: <?php echo $user['email']; ?>"
-				class="form-control bg-dark text-light no-border-top" onkeyup="validate();" />
+				class="form-control bg-dark text-light no-border-top" />
 					
 			<div class="mt-3 mb-1">
-				<button id="btnSubmit" disabled style="min-width: 300px"
+				<button id="btnSubmit" style="min-width: 300px"
 					type="submit" class="btn btn-outline-success btn-lg btn-block">Update Account</button>
 			</div>
 			
@@ -90,14 +77,14 @@
 			<p class="form-control bg-dark text-light">Account Name: <?php echo $user['account_name']; ?> </p>
 			
 			<input id="currpw" type="password" placeholder="Current Password"
-				class="form-control bg-dark text-light no-border-bottom" onkeyup="validate();" />
+				class="form-control bg-dark text-light no-border-bottom" />
 			<input id="newpw" type="password" placeholder="New Password"
-				class="form-control bg-dark text-light no-border" onkeyup="validate();" />
+				class="form-control bg-dark text-light no-border" />
 			<input id="repnewpw" type="password" placeholder="Repeat New Password"
-				class="form-control bg-dark text-light no-border-top" onkeyup="validate();" />
+				class="form-control bg-dark text-light no-border-top" />
 			
 			<div class="mt-3 mb-1">
-				<button id="btnSubmit" disabled style="min-width: 300px"
+				<button id="btnSubmit" style="min-width: 300px"
 					type="submit" class="btn btn-outline-success btn-lg btn-block">Update Password</button>
 			</div>
 			
@@ -117,14 +104,16 @@
 <script>
 $(function() {
 	$('#accForm').submit(function(e) {
+		console.log('here');
 		$.ajax({
 			method: "POST",
-			url: "/Pref.php",
+			url: "/pref.php",
 			data: { 'form': 'acc', 'disname': $('#disname').val(), 'email': $('#email').val() },
 			dataType: 'json',
 			async: 'false'
 		})
 			.done(function(response) {
+				console.log('here');
 				$('p.answer').html(response['message']);
 			});
 		e.preventDefault();
@@ -136,7 +125,7 @@ $(function() {
 	$('#pwForm').submit(function(e) {
 		$.ajax({
 			method: "POST",
-			url: "/Pref.php",
+			url: "/pref.php",
 			data: { 'form': 'pw', 'curpw': $('#curpw').val(), 'newpw': $('#newpw').val(), 'repnewpw': $('#repnewpw').val() },
 			dataType: 'json',
 			async: 'false'

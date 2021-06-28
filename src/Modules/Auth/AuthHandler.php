@@ -56,13 +56,17 @@ class AuthHandler {
 		return array('success' => false);
 	}
 
-	public function logout() {}
+	public function logout() {
+		
+	}
 
 	public function check_username(string $username) {}
 
 	public function check_email(string $email) {}
 
-	public function pw_match(string $pw, string $repeat) {}
+	public function pw_match(string $pw, string $repeat) {
+		
+	}
 
 }
 

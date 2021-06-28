@@ -50,6 +50,9 @@
 		case '/pref':
 			include_once PHP_TEMPLATES.'Admin/PreferencesPage.php';
 			break;
+		case '/pref.php':
+			include_once PHP_TEMPLATES.'Admin/preferences.php';
+			break;
 		default:
 			echo $uri;
 		}
