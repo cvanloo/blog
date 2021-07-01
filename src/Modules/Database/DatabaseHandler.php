@@ -401,6 +401,42 @@ class DatabaseHandler {
 
 		return true;
 	}
+
+	public function store_blog_tags(int $blog_id, int $tag_id) {
+		$statement = "INSERT INTO blog_tag
+			VALUES (:blog_id, :tag_id)";
+
+		$data = [
+			'blog_id' => $blog_id,
+			'tag_id' => $tag_id
+		];
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		}
+		catch (PDOException $pdoEx) {
+			echo $pdoEx;
+			return null;
+		}
+	}
+
+	public function retrieve_blog_tags(int $blog_id) {
+		$statement = "SELECT t.name FROM tag as t, blog_tag as bt
+			WHERE bt.blog_id = ? AND bt.tag_id = t.id";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$blog_id]);
+			return $stmt->fetchAll();
+		}
+		catch (PDOException $pdoEx) {
+			echo $pdoEx;
+			return null;
+		}
+	}
 }
 
 class DatabaseResult {

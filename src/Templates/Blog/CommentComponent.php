@@ -16,8 +16,8 @@ $content = $comment['content'];
 
 echo <<< EOL
 <span>
+	<h6 style="margin-bottom: -20px; color: gray;">answer to: $parent_text</h6><br>
 	<h6>
-		answer to: $parent_text<br>
 		<a href="/@$account_name">$display_name</a>
 		$time
 		<button onclick="show_answer('answer-box-$comment_id')" style="max-width: 70px;">Answer</button><br>

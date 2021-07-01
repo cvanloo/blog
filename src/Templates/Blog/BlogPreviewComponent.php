@@ -1,7 +1,7 @@
 <!-- Blog Preview Component -->
-<a href="<?php echo '/' . '@' . $user_name . '/' . $blog['title']; ?>"
+<a href="<?php echo '/' . '@' . $user['account_name'] . '/' . $blog['title']; ?>"
 	style="text-decoration: none; color: white;">
-<div class="p-5 border" style="overflow: hidden;">
+<div class="p-4 border" style="overflow: hidden;">
 	<p>
 		<?php
 
@@ -16,8 +16,20 @@
 
 			$title = $blog['title'];
 			$desc = $blog['description'];
-			echo "<h3>$title</h3>";
-			echo "<p>$desc</p>";
+			$tags_str = "";
+
+
+
+			foreach ($tags as $tag) {
+				$tags_str .= $tag['name'] . ", ";
+			}
+
+			echo <<< EOF
+			<p>{$user['display_name']}, {$blog['create_datetime']}</p>
+			<h3>$title</h3>
+			<p>$desc</p>
+			<p>Tags: $tags_str</p>
+			EOF;
 		}
 
 		?>
