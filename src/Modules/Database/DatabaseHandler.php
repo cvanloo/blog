@@ -195,14 +195,15 @@ class DatabaseHandler {
 		}
 	}
 
-	public function store_comment(int $creator_id, int $blog_id, string $content) {
-		$statement = "INSERT INTO comment (creator_id, blog_id, content)
-			VALUES (:creator,:blog,:content)";
+	public function store_comment(int $creator_id, int $blog_id, string $content, int $parent_id = NULL) {
+		$statement = "INSERT INTO comment (creator_id, blog_id, content, parent_id)
+			VALUES (:creator,:blog,:content,:parent_id)";
 
 		$data = [
 			'creator' => $creator_id,
 			'blog' => $blog_id,
-			'content' => $content
+			'content' => $content,
+			'parent_id' => $parent_id
 		];
 
 		$stmt = $this->conn->prepare($statement);
@@ -234,6 +235,23 @@ class DatabaseHandler {
 			echo $pdoEx;
 			return null;
 		}
+	}
+
+	public function retrieve_comment(int $id) {
+		$statement = "SELECT * FROM comment
+			WHERE id = ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$id]);
+			return $stmt->fetch();
+		}
+		catch(PDOException $pdoEx) {
+			echo $podEx;
+			return null;
+		}
+
 	}
 
 	public function store_access_right(int $user_id, string $key, string $value) {
@@ -362,7 +380,7 @@ class DatabaseHandler {
 		return true;
 	}
 
-	public function update_displayname(int $id, int $new_displayname) {
+	public function update_displayname(int $id, string $new_displayname) {
 		$statement = "UPDATE user
 			SET display_name = :display_name
 			WHERE id = :id";

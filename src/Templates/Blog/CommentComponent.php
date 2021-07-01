@@ -1,14 +1,51 @@
 <?php
 
-$user = $db->retrieve_user_by_id($comment['creator_id'])['display_name'];
+$comment_id = $comment['id'];
+$parent_id = $comment['parent_id'];
+$parent_text = "none";
+
+if (NULL !== $parent_id) {
+	$parent_text = $db->retrieve_comment($parent_id)['content'];
+}
+
+$user = $db->retrieve_user_by_id($comment['creator_id']);
+$display_name = $user['display_name'];
+$account_name = $user['account_name'];
 $time = $comment['create_datetime'];
 $content = $comment['content'];
 
-echo "<span><h6><a href=\"/@$user\">$user</a> $time<br>$content</h6></span>";
+echo <<< EOL
+<span>
+	<h6>
+		answer to: $parent_text<br>
+		<a href="/@$account_name">$display_name</a>
+		$time
+		<button onclick="show_answer('answer-box-$comment_id')" style="max-width: 70px;">Answer</button><br>
+		$content
+	</h6>
+	<div id="answer-box-$comment_id" style="display: none">
+		<form class="p-2 border border-success border-2" method="post" action="$uri">
+			<input type="text" name="comment" placeholder="Write a comment" />
+			<input type="submit" name="submit" value="Comment" />
+			<input type="text" name="parent_comment" value="$comment_id" style="display: none;"/>
+		</form>
+	</div>
+</span>
+EOL;
 
 ?>
 
-<button style="max-width: 60px;">Answer</button>
+<script>
+	function show_answer(el) {
+		var answer_div = document.getElementById(el);
+		if ('none' == answer_div.style.display) {
+			answer_div.style.display = 'block';
+		}
+		else {
+			answer_div.style.display = 'none';
+		}
+	}
+</script>
 
 <!--
 

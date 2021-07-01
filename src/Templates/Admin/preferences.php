@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$email = sanitize($_POST['email']);
 
 			updateAcc($disname, $email);
+			echo "Account Updated.";
 			break;
 		case 'pw':
 			$curpw = sanitize($_POST['curpw']);
@@ -20,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$repnewpw = sanitize($_POST['repnewpw']);
 
 			updatePw($curpw, $newpw, $repnewpw);
+			echo "Password Updated.";
 			break;
 	}
 }

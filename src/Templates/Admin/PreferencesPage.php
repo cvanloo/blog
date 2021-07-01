@@ -104,7 +104,6 @@
 <script>
 $(function() {
 	$('#accForm').submit(function(e) {
-		console.log('here');
 		$.ajax({
 			method: "POST",
 			url: "/pref.php",
@@ -113,13 +112,11 @@ $(function() {
 			async: 'false'
 		})
 			.done(function(response) {
-				console.log('here');
 				$('p.answer').html(response['message']);
 			});
 		e.preventDefault();
 	});
 });
-
 
 $(function() {
 	$('#pwForm').submit(function(e) {

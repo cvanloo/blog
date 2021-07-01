@@ -78,8 +78,9 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	var_dump($_POST);
 	$db = new DatabaseHandler();
-	$res = $db->store_comment($_SESSION['userid'], blog['id'], $_POST['comment']);
+	$res = $db->store_comment($_SESSION['userid'], blog['id'], $_POST['comment'], $_POST['parent_comment']);
 }
 
 ?>
