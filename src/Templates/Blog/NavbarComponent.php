@@ -18,36 +18,31 @@
 				<!--li class="nav-item">
 					<a href="/" class="nav-link text-white">Home</a>
 				</li-->
-				<?php
-					if (isset($_SESSION['userid'])) {
-						$accname = $_SESSION['accname'];
-						echo "
-						<li class='nav-item'>
-						<a href='@$accname' class='nav-link text-white'>Personal Blog</a>
-						</li>
-						<li class='nav-item'>
-						<a href='/upload' class='nav-link text-white'>Upload Blog</a>
-						</li>
-						<li class='nav-item dropdown'>
-							<a class='nav-link dropdown-toggle' id='navbarDropdown'
-								role='button' data-bs-toggle='dropdown' aria-expand='false'>
-								User
-							</a>
-							<ul class='dropdown-menu bg-dark' aria-labelledby='navbarDropdown'>
-								<li><a class='dropdown-item text-white' href='/pref'>Preferences</a></li>
-								<li><a class='dropdown-item text-white' href='/logout'>Logout</a></li>
-							</ul>
-						</li>";
-					} else {
-						echo '
-						<li class="nav-item">
-							<a href="/login" class="nav-link text-white">Login</a>
-						</li>
-						<li class="navbar-nav">
-							<a href="/register" class="nav-link text-white">Register</a>
-						</li>';
-					}
-				?>
+				<?php if (isset($_SESSION['userid'])): ?>
+					<li class='nav-item'>
+					<a href='@<?php echo $_SESSION['accname']; ?>' class='nav-link text-white'>Personal Blog</a>
+					</li>
+					<li class='nav-item'>
+					<a href='/upload' class='nav-link text-white'>Upload Blog</a>
+					</li>
+					<li class='nav-item dropdown'>
+						<a class='nav-link dropdown-toggle' id='navbarDropdown'
+							role='button' data-bs-toggle='dropdown' aria-expand='false'>
+							User
+						</a>
+						<ul class='dropdown-menu bg-dark' aria-labelledby='navbarDropdown'>
+							<li><a class='dropdown-item text-white' href='/pref'>Preferences</a></li>
+							<li><a class='dropdown-item text-white' href='/logout'>Logout</a></li>
+						</ul>
+					</li>
+				<?php else: ?>
+					<li class="nav-item">
+						<a href="/login" class="nav-link text-white">Login</a>
+					</li>
+					<li class="navbar-nav">
+						<a href="/register" class="nav-link text-white">Register</a>
+					</li>
+				<?php endif; ?>
 			</ul>
 		</div>
 	</div>
