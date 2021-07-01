@@ -18,13 +18,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	if ($user) {
 		$access_rights = $db->retrieve_access_rights($user['id']);
-		
+
+		echo "<div class=\"text-center mt-5 input-group input-group-lg\">";
+		echo "<form method=\"POST\" action=\"\" style=\"max-width: 300px; margin: auto\">";
+
 		foreach ($access_rights as $right) {
-			echo $right['ar_key'] . ': ' . $right['ar_value'];
-			echo '<br/>';
+			echo <<< EOL
+			<label>{$right['ar_key']}: </label>
+			<input name="{$right['ar_key']}" type="text" placeholder="{$right['ar_value']}" class="form-control bg-dark text-light" />
+			EOL;
 		}
 
-		echo 'Blocked: ' . $user['is_blocked'];
+		echo "<label>Blocked: </label>";
+		echo "<input name=\"is_blocked\" type=\"text\" placeholder=\"{$user['is_blocked']}\" class=\"form-control bg-dark text-light\" />";
+
+		echo <<< EOL
+		<div class="mt-3 mb-1">
+			<button id="btnSubmit" style="min-width: 300px"
+				type="submit" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
+		</div>
+		EOL;
+
+		echo "</form>";
+		echo "</div>";
 	}
 	else {
 		echo '<p>User '.$accname.' does not exist.</p>';
