@@ -76,7 +76,7 @@
 			<h2 class="mb-3 h1">Update Password</h2>
 			<p class="form-control bg-dark text-light">Account Name: <?php echo $user['account_name']; ?> </p>
 			
-			<input id="currpw" type="password" placeholder="Current Password"
+			<input id="curpw" type="password" placeholder="Current Password"
 				class="form-control bg-dark text-light no-border-bottom" />
 			<input id="newpw" type="password" placeholder="New Password"
 				class="form-control bg-dark text-light no-border" />

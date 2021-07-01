@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$email = sanitize($_POST['email']);
 
 			updateAcc($disname, $email);
-			echo "Account Updated.";
 			break;
 		case 'pw':
 			$curpw = sanitize($_POST['curpw']);
@@ -21,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$repnewpw = sanitize($_POST['repnewpw']);
 
 			updatePw($curpw, $newpw, $repnewpw);
-			echo "Password Updated.";
 			break;
 	}
 }
@@ -31,21 +29,24 @@ function updateAcc($disname, $email) {
 
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$db->update_email($_SESSION['userid'], $email);
+		echo "Email updated.";
 	}
 	
-	if (preg_match("/^[a-zA-Z-' ]*$/", $disname)) {
+	if (false != $disname && preg_match("/^[a-zA-Z-' ]*$/", $disname)) {
 		$db->update_displayname($_SESSION['userid'], $disname);
+		echo "Displayname updated.";
 	}
 }
 
 function updatePw($curpw, $newpw, $repnewpw) {
 	$db = new DatabaseHandler();
 
-	$pwhash = $db->retrieve_user_by_id($_SESSION['userid'])['id'];
+	$pwhash = $db->retrieve_user_by_id($_SESSION['userid'])['pw_hash'];
 
 	if (password_verify($curpw, $pwhash)) {
 		if ($repnewpw == $newpw) {
 			$db->update_password($_SESSION['userid'], $newpw);
+			echo "Password updated.";
 		}
 	}
 }
