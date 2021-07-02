@@ -130,6 +130,7 @@ To run the tests, execute:
 
 ## Directory Structure
 
+```
  .  
 ├── Projectdescription  
 └── src  
@@ -140,6 +141,7 @@ To run the tests, execute:
    │  └── index.php  
    ├── Templates  
    └── tests
+```
 
 Folder | Description
 ------ | -----------
