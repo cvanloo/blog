@@ -53,6 +53,9 @@
 		case '/pref.php':
 			include_once PHP_TEMPLATES.'Admin/preferences.php';
 			break;
+		case '/search.php':
+			include_once PHP_MODULES.'Search/Search.php';
+			break;
 		default:
 			echo $uri;
 		}

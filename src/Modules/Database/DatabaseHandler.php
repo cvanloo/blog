@@ -171,6 +171,21 @@ class DatabaseHandler {
 			return null;
 		}
 	}
+
+	public function retrieve_blogs_by_name(string $name) {
+		$statement = "SELECT * FROM blog
+			WHERE title = ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$name]);
+			return $stmt->fetchAll();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
 	
 	public function retrieve_blog(int $limit, int $user_id = null) {
 		$statement = "";

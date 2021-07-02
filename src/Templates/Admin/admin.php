@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		echo <<< EOL
 		<div class="mt-3 mb-1">
 			<button id="btnSubmit" style="min-width: 300px"
-				type="submit" class="btn btn-outline-success btn-lg btn-block">Sign in</button>
+				type="submit" class="btn btn-outline-success btn-lg btn-block">Update</button>
 		</div>
 		EOL;
 
