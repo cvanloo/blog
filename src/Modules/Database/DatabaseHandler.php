@@ -417,6 +417,22 @@ class DatabaseHandler {
 		return true;
 	}
 
+	public function store_tag(string $name) {
+		$statement = "INSERT INTO tag (name)
+			VALUES (?)";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$name]);
+		}
+		catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public function store_blog_tags(int $blog_id, int $tag_id) {
 		$statement = "INSERT INTO blog_tag
 			VALUES (:blog_id, :tag_id)";

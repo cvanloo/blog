@@ -66,7 +66,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (move_uploaded_file($fileTmpName, $target_file)) {
 			$db = new DatabaseHandler();
 	
+			// store blog meta data in db
 			$uploadSuccess = $db->store_blog($_SESSION['userid'], $_POST['title'], $target_file, $_POST['description']);
+
+			// store blog tags in db
+			$tags = $_POST['tags'];
+			$tags = explode(' ', $tags);
+			foreach ($tags as &$tag) {
+				if (substr($tag, 0, 1) !== '#') {
+					$tag = '#' . $tag;
+				}
+
+				$tag_id = $db->store_tag($tag);
+				echo $tag_id;
+				//$db->store_blog_tags($blog_id, $tag_id);
+			}
 		}
 	
 		if ($uploadSuccess) {
