@@ -112,6 +112,7 @@ $(function() {
 			async: 'false'
 		})
 			.done(function(response) {
+				console.log(response); // BUG: Why is done never called?
 				$('p.answer').html(response['message']);
 			});
 		e.preventDefault();
@@ -128,6 +129,7 @@ $(function() {
 			async: 'false'
 		})
 			.done(function(response) {
+				console.log(response); // BUG: Why is done never called?
 				$('p.answer').html(response['message']);
 			});
 		e.preventDefault();

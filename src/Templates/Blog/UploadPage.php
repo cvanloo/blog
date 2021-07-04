@@ -78,11 +78,9 @@ $(function() {
 			data: new FormData(this),
 			processData: false,
 			contentType: false,
-			//dataType: 'json',
 			async: 'false'
 		})
 			.done(function(response) {
-				console.log(response);
 				answer = JSON.parse(response);
 				messages = answer['messages'];
 				$('p.answer').empty();
@@ -91,7 +89,6 @@ $(function() {
 					$('p.answer').append(messages[i] + "<br>");
 				}
 
-				console.log(answer);	
 				if (answer['success']) {
 					window.location = "/";
 				}

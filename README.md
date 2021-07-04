@@ -130,16 +130,18 @@ To run the tests, execute:
 
 ## Directory Structure
 
-  .  
-├──   Projectdescription  
-└──   src  
-   ├──   config  
-   ├──   Modules  
-   ├──   public  
-   │  ├──   assets  
-   │  └──   index.php  
-   ├──   Templates  
-   └──   tests
+```
+ .  
+├── Projectdescription  
+└── src  
+   ├── config  
+   ├── Modules  
+   ├── public  
+   │  ├── assets  
+   │  └── index.php  
+   ├── Templates  
+   └── tests
+```
 
 Folder | Description
 ------ | -----------
