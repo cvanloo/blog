@@ -9,22 +9,28 @@ use Modules\Database\DatabaseHandler;
 
 class AuthHandler {
 
-	public function register(string $email, string $acc_name, string $pw)
-	{
+	public function register(string $email, string $acc_name, string $pw) {
 		$db = new DatabaseHandler();
+		$db->start_transaction();
 
 		// Create user account
-		if ($db->store_user($email, $acc_name, $pw)) {
+		$result = $db->store_user($email, $acc_name, $pw);
+
+		if ($result->success) {
 			// Retrieve id of just created account
-			$userid = $db->retrieve_user_by_name($acc_name)['id'];
+			$user_id = $result->last_id;
 	
 			// Store user access rights
-			$db->store_access_right($userid, 'admin', 'false');
-			$db->store_access_right($userid, 'can_publish', 'true');
-			$db->store_access_right($userid, 'can_comment', 'true');
+			$db->store_access_right($user_id, 'admin', 'false');
+			$db->store_access_right($user_id, 'can_publish', 'true');
+			$db->store_access_right($user_id, 'can_comment', 'true');
+
+			$db->commit_transaction();
+			return true;
 		}
 
-		return true; // TODO: Database Transactions & Rollback
+		$db->rollback_transaction();
+		return false;
 	}
 
 	public function login(string $identifier, string $pw) {
@@ -32,9 +38,11 @@ class AuthHandler {
 		
 		$user = null; 
 		if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+			// User authenticated via email
 			$user = $db->retrieve_user_by_email($identifier);
 		}
 		else {
+			// User authenticated via account name
 			$user = $db->retrieve_user_by_name($identifier);
 		}
 
@@ -46,7 +54,7 @@ class AuthHandler {
 		// verify password
 		if (password_verify($pw, $pwhash)) {
 			// check if the passwords needs to be rehashed
-			if (password_needs_rehash($pwhash, PASSWORD_DEFAULT, ['cost' => 15])) {
+			if (password_needs_rehash($pwhash, PASSWORD_DEFAULT, ['cost' => HASH_COST])) {
 				$db->update_password($id, $pw);
 			}
 
@@ -56,17 +64,13 @@ class AuthHandler {
 		return array('success' => false);
 	}
 
-	public function logout() {
-		
-	}
+	public function logout() {}
 
 	public function check_username(string $username) {}
 
 	public function check_email(string $email) {}
 
-	public function pw_match(string $pw, string $repeat) {
-		
-	}
+	public function pw_match(string $pw, string $repeat) {}
 
 }
 

@@ -43,11 +43,23 @@ class DatabaseHandler {
 
 		return new DatabaseResult(true);
 	}
+
+	public function start_transaction() {
+		$this->conn->beginTransaction();
+	}
+
+	public function rollback_transaction() {
+		$this->conn->rollBack();
+	}
+
+	public function commit_transaction() {
+		$this->conn->commit();
+	}
 	
 	public function query_from_file(string $filepath) {
 		$query = file_get_contents($filepath);
 		if (false == $query) {
-			throw new \Exception("Failed to open file."); // TODO: Make proper exceptions
+			throw new \Exception("Failed to open file.");
 		}
 
 		$this->conn->exec($query);
@@ -55,7 +67,7 @@ class DatabaseHandler {
 
 	// Stores a new account in the database
 	public function store_user(string $email, string $acc_name, string $pw,
-		string $display_name = null) : bool
+		string $display_name = null) : DatabaseResult
 	{
 		if (null == $display_name) {
 			$display_name = $acc_name;
@@ -64,10 +76,11 @@ class DatabaseHandler {
 		// 'PASSWORD_DEFAULT' uses PHP's strongest hashing algorithm.
 		// This can change, therefore the length of the hash can change too.
 		// It is recommended to use 255 characters in the database.
-		$options = [ "cost" => 15 ]; // shouldn't take longer than a 100ms to execute
+		$options = [ "cost" => HASH_COST ]; // shouldn't take longer than a 100ms to execute
 		$pwhash = password_hash($pw, PASSWORD_DEFAULT, $options);
 
-		$statement = "INSERT INTO user (email, account_name, display_name, pw_hash)
+		$statement = 
+			"INSERT INTO user (email, account_name, display_name, pw_hash)
 			VALUES (:email,:account_name,:display_name,:pw_hash)";
 
 		$data = [
@@ -83,10 +96,11 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
 
-		return true;
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
 	public function retrieve_user_by_name(string $acc_name) {
@@ -128,8 +142,11 @@ class DatabaseHandler {
 		}
 	}
 
-	public function store_blog(string $creator, string $title, string $path, string $description) : bool {
-		$statement = "INSERT INTO blog (creator_id, title, content_path, description)
+	public function store_blog(string $creator, string $title, string $path,
+		string $description) : DatabaseResult
+	{
+		$statement = 
+			"INSERT INTO blog (creator_id, title, content_path, description)
 			VALUES (:creator,:title,:path,:description)";
 
 		$data = [
@@ -145,14 +162,16 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
 
-		return true;
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
 	public function retrieve_blog_by_name(string $user_id, string $name) {
-		$statement = "SELECT * FROM blog
+		$statement =
+			"SELECT * FROM blog
 			WHERE title = :title
 			AND creator_id = :id";
 
@@ -185,7 +204,9 @@ class DatabaseHandler {
 		$stmt = $this->conn->prepare($statement);
 
 		try {
-			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			// pdo will put sinle quotes around the integer, this way should
+			// stop it from doing so.
+			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); 
 			if (null != $user_id) { $stmt->bindValue(':id', $user_id); }
 			$stmt->execute();
 			return $stmt->fetchAll();
@@ -195,8 +216,11 @@ class DatabaseHandler {
 		}
 	}
 
-	public function store_comment(int $creator_id, int $blog_id, string $content, int $parent_id = NULL) {
-		$statement = "INSERT INTO comment (creator_id, blog_id, content, parent_id)
+	public function store_comment(int $creator_id, int $blog_id, string $content,
+		int $parent_id = NULL) : DatabaseResult
+	{
+		$statement = 
+			"INSERT INTO comment (creator_id, blog_id, content, parent_id)
 			VALUES (:creator,:blog,:content,:parent_id)";
 
 		$data = [
@@ -212,21 +236,25 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
 
-		return true;
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
 	public function retrieve_comments(int $blog_id, int $limit) {
-		$statement = "SELECT * FROM comment
+		$statement =
+			"SELECT * FROM comment
 			WHERE blog_id = :id
 			LIMIT :max";
 
 		$stmt = $this->conn->prepare($statement);
 
 		try {
-			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); // pdo will put sinle quotes around the integer, this way should stop it from doing so.
+			// pdo will put sinle quotes around the integer, this way should
+			// stop it from doing so.
+			$stmt->bindValue(':max', $limit, PDO::PARAM_INT); 
 			$stmt->bindValue(':id', $blog_id);
 			$stmt->execute();
 			return $stmt->fetchAll();
@@ -254,8 +282,11 @@ class DatabaseHandler {
 
 	}
 
-	public function store_access_right(int $user_id, string $key, string $value) {
-		$statement = "INSERT INTO access_right (user_id, ar_key, ar_value)
+	public function store_access_right(int $user_id, string $key, string $value) 
+		: DatabaseResult
+	{
+		$statement =
+			"INSERT INTO access_right (user_id, ar_key, ar_value)
 			VALUES (:user,:key,:value)";
 
 		$data = [
@@ -270,14 +301,16 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
-
-		return true;
+		
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
 	public function retrieve_access_rights(int $user_id) {
-		$statement = "SELECT ar_key, ar_value FROM access_right
+		$statement =
+			"SELECT ar_key, ar_value FROM access_right
 			WHERE user_id = ?";
 
 		$stmt = $this->conn->prepare($statement);
@@ -292,7 +325,8 @@ class DatabaseHandler {
 	}
 
 	public function retrieve_access_right(int $user_id, string $key) {
-		$statement = "SELECT ar_value FROM access_right
+		$statement =
+			"SELECT ar_value FROM access_right
 			WHERE user_id = :id AND ar_key = :key";
 
 		$data = [
@@ -311,8 +345,11 @@ class DatabaseHandler {
 		}
 	}
 
-	public function update_access_right(int $user_id, string $key, string $new_value) {
-		$statement = "UPDATE access_right
+	public function update_access_right(int $user_id, string $key, string $new_value) 
+		: DatabaseResult 
+	{
+		$statement =
+			"UPDATE access_right
 			SET ar_value = :new_value
 			WHERE user_id = :user_id AND ar_key = :key";
 
@@ -328,18 +365,20 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
-
-		return true;
+	
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
-	public function update_password(int $id, string $new_password) {
-		$statement = "UPDATE user
+	public function update_password(int $id, string $new_password) : DatabaseResult {
+		$statement =
+			"UPDATE user
 			SET pw_hash = :pwhash
 			WHERE id = :id";
 
-		$pwhash = password_hash($new_password, PASSWORD_DEFAULT, ["cost" => 15]);
+		$pwhash = password_hash($new_password, PASSWORD_DEFAULT, ["cost" => HASH_COST]);
 
 		$data = [
 			'pwhash' => $pwhash,
@@ -352,14 +391,16 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
 
-		return true;
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
-	public function update_email(int $id, string $new_email) {
-		$statement = "UPDATE user
+	public function update_email(int $id, string $new_email) : DatabaseResult {
+		$statement =
+			"UPDATE user
 			SET email = :email
 			WHERE id = :id";
 
@@ -374,14 +415,18 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
 
-		return true;
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
-	public function update_displayname(int $id, string $new_displayname) {
-		$statement = "UPDATE user
+	public function update_displayname(int $id, string $new_displayname) 
+		: DatabaseResult
+	{
+		$statement =
+			"UPDATE user
 			SET display_name = :display_name
 			WHERE id = :id";
 
@@ -396,14 +441,16 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			return false;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
 
-		return true;
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
-	public function store_blog_tags(int $blog_id, int $tag_id) {
-		$statement = "INSERT INTO blog_tag
+	public function store_blog_tags(int $blog_id, int $tag_id) : DatabaseResult {
+		$statement =
+			"INSERT INTO blog_tag
 			VALUES (:blog_id, :tag_id)";
 
 		$data = [
@@ -417,13 +464,16 @@ class DatabaseHandler {
 			$stmt->execute($data);
 		}
 		catch (PDOException $pdoEx) {
-			echo $pdoEx;
-			return null;
+			return new DatabaseResult(false, $pdoEx->getMessage());
 		}
+
+		$id = $this->conn->lastInsertId();
+		return new DatabaseResult(true, NULL, $id);
 	}
 
 	public function retrieve_blog_tags(int $blog_id) {
-		$statement = "SELECT t.name FROM tag as t, blog_tag as bt
+		$statement =
+			"SELECT t.name FROM tag as t, blog_tag as bt
 			WHERE bt.blog_id = ? AND bt.tag_id = t.id";
 
 		$stmt = $this->conn->prepare($statement);
@@ -433,7 +483,6 @@ class DatabaseHandler {
 			return $stmt->fetchAll();
 		}
 		catch (PDOException $pdoEx) {
-			echo $pdoEx;
 			return null;
 		}
 	}
@@ -442,14 +491,18 @@ class DatabaseHandler {
 class DatabaseResult {
 	public $success;
 	public $message;
+	public $last_id;
 
-	public function __construct(bool $success, string $message = NULL) {
+	public function __construct(bool $success, string $message = NULL,
+		int $last_id = NULL)
+	{
 		$this->success = $success;
 		$this->message = $message;
+		$this->last_id = $last_id;
 	}
 
 	public function __toString() : string {
-		return "$this->success: $this->message";
+		return "$this->success: $this->message, last insert id is: $this->last_id";
 	}
 }
 

@@ -12,4 +12,7 @@ define("DB_CONNECT", "mysql:host=172.19.0.3;dbname=blog");
 define("DB_USER", "admin");
 define("DB_PW", "test");
 
+// Hashing
+define("HASH_COST", 15);
+
 ?>
