@@ -519,6 +519,20 @@ class DatabaseHandler {
 			return null;
 		}
 	}
+
+	public function retrieve_tag_by_name(string $name) {
+		$statement = "SELECT * FROM tag WHERE name = ?";
+
+		$stmt = $this->conn->prepare($statement);
+
+		try {
+			$stmt->execute([$name]);
+			return $stmt->fetch();
+		}
+		catch (PDOException $pdoEx) {
+			return null;
+		}
+	}
 }
 
 class DatabaseResult {

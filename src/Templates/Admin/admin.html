@@ -10,6 +10,31 @@
 	</div>
 </div>
 
+<div class="text-center mt-5 input-group input-group-lg">
+	<form id="updateForm" method="POST" action="" style="max-width: 300px; margin: auto">
+		<label>User Id: </label>
+		<label id="user_id"></label><br>
+
+		<label>Is admin: </label>
+		<input id="is_admin" type="checkbox" /><br>
+
+		<label>Can comment: </label>
+		<input id="can_comment" type="checkbox" /><br>
+
+		<label>Can publish: </label>
+		<input id="can_publish" type="checkbox" /><br>
+
+		<label>Blocked: </label>
+		<input id="is_blocked" type="checkbox" /><br>
+
+		<div class="mt-3 mb-1">
+			<button id="update" style="min-width: 300px"
+				type="submit" class="btn btn-outline-success btn-lg btn-block">Update</button>
+		</div>
+	</form>
+</div>
+
+
 <script>
 $(function() {
 	$('#submit').click(function() {
@@ -19,8 +44,33 @@ $(function() {
 			data: { search_field: $('#search_field').val() }
 		})
 			.done(function(response) {
-				$("p.answer").html(response);
+				const answer = JSON.parse(response);
+				$("p.answer").html(answer['message']);
+
+				$('#is_admin').prop('checked', answer['is_admin']);
+				$('#can_comment').prop('checked', answer['can_comment']);
+				$('#can_publish').prop('checked', answer['can_publish']);
+				$('#is_blocked').prop('checked', answer['is_blocked']);
+				$('#user_id').html(answer['user_id']);
 			});
+	});
+});
+
+$(function() {
+	$('#updateForm').submit(function(e) {
+		$.ajax({
+			method: "POST",
+			url: "/admin_update.php",
+			data: { 'is_admin': $('#is_admin').is(':checked'), 'can_comment': $('#can_comment').is(':checked'),
+					'can_publish': $('#can_publish').is(':checked'), 'is_blocked': $('#is_blocked').is(':checked'),
+					'user_id': $('#user_id').text() },
+			dataType: 'json',
+			async: 'false'
+		})
+			.done(function(response) {
+				console.log(response);
+			});
+		e.preventDefault();
 	});
 });
 </script>

@@ -47,6 +47,9 @@
 		case '/var/php/Templates/admin.php':
 			include_once PHP_TEMPLATES.'Admin/admin.php';
 			break;
+		case '/admin_update.php':
+			include_once PHP_TEMPLATES.'Admin/admin_update.php';
+			break;
 		case '/pref':
 			include_once PHP_TEMPLATES.'Admin/PreferencesPage.php';
 			break;
