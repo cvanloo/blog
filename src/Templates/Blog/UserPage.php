@@ -34,6 +34,7 @@
 			// Display all blogs
 			foreach ($blogs as $blog) {
 				$user_name = $db->retrieve_user_by_id($blog['creator_id'])['account_name'];
+				$tags = $db->retrieve_blog_tags($blog['id']);
 				include PHP_TEMPLATES.'Blog/BlogPreviewComponent.php';
 			}
 		}
