@@ -68,29 +68,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 			// store blog meta data in db
 			$result = $db->store_blog($_SESSION['userid'], $_POST['title'], $target_file, $_POST['description']);
-			var_dump($result);
 			$uploadSuccess = $result->success;
 			$blog_id = $result->last_id;
 
-			// store new and retrieve existing blog tags in/from db
-			$tags = $_POST['tags'];
-			$tags = explode(' ', $tags);
-			foreach ($tags as &$tag) {
-				if (substr($tag, 0, 1) !== '#') {
-					$tag = '#' . $tag;
-				}
+			if ($uploadSuccess) {
+				// store new and retrieve existing blog tags in/from db
+				$tags = $_POST['tags'];
+				$tags = explode(' ', $tags);
+				foreach ($tags as &$tag) {
+					if (substr($tag, 0, 1) !== '#') {
+						$tag = '#' . $tag;
+					}
 
-				$tag_id = NULL;
-				$tag_exist = $db->retrieve_tag_by_name($tag);
-				if (NULL == $tag_exist) {
-					$result = $db->store_tag($tag);
-					$tag_id = $result->last_id;
-				}
-				else {
-					$tag_id = $tag_exist['id'];
-				}
+					$tag_id = NULL;
+					$tag_exist = $db->retrieve_tag_by_name($tag);
+					if (NULL == $tag_exist) {
+						$result = $db->store_tag($tag);
+						$tag_id = $result->last_id;
+					}
+					else {
+						$tag_id = $tag_exist['id'];
+					}
 
-				$db->store_blog_tags($blog_id, $tag_id);
+					$db->store_blog_tags($blog_id, $tag_id);
+				}
 			}
 		}
 	

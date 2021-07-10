@@ -19,6 +19,8 @@
 		var tbs = document.getElementsByTagName('input')
 		var btn = document.getElementById('btnSubmit');
 
+		var pw1 = "";
+
 		for (i = 0; i < tbs.length; i++) {
 			var tb = tbs[i];
 			switch (tb.type) {
@@ -85,12 +87,6 @@
 			<input id="rep_password" type="password" placeholder="Repeat Password"
 				class="form-control bg-dark text-light no-border-top bigger"
 				onkeyup="validate();" required />
-
-			<div class="checkbox mt-3">
-				<label>
-					<input type="checkbox" /> Remember Me!
-				</label>
-			</div>
 
 			<div class="mt-3 mb-1">
 				<button id="btnSubmit" disabled style="min-width: 300px" type="submit" class="btn btn-outline-success btn-lg btn-block">Create Account</button>

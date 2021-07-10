@@ -20,7 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	if ($password !== $rep_password) {
 		$answer['message'] = "Passwords don't match.";
-	} // TODO: validate E-Mail
+	}
+	else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		$answer['message'] = "Not a valid email address.";
+	}
 	else {
 		$auth = new AuthHandler();
 	
